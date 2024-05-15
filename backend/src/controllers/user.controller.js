@@ -6,6 +6,24 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
+const generateAccessAndRefreshTokens = async (userId) => {
+  try {
+    const user = await User.findById(userId);
+    const accessToken = user.generateAccessToken();
+    const refreshToken = user.generateRefreshToken();
+
+    user.refreshToken = refreshToken;
+    await user.save({ validateBeforeSave: false });
+
+    return { accessToken, refreshToken };
+  } catch (error) {
+    throw new ApiError(
+      500,
+      "Internal Server Error while generating refresh and access token"
+    );
+  }
+};
+
 const register = asyncHandler(async (req, res) => {
   const { username, fullName, email, phone, password } = req.body;
   //console.log("req.body", req.body);
@@ -76,4 +94,52 @@ const register = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, createdUser, "User created successfully"));
 });
 
-export { register };
+const loginUser = asyncHandler(async (req, res) => {
+  const { username, email, password } = req.body;
+  if (username === "" && email === "") {
+    throw new ApiError(400, "Username or Email is required");
+  }
+  if (password === "") {
+    throw new ApiError(400, "Password is required");
+  }
+  // checking whether any user of username or email exists in the database
+  const existedUser = await User.findOne({
+    $or: [{ username }, { email }],
+  });
+
+  if (!existedUser) {
+    throw new ApiError(404, "User not found in the database");
+  }
+  //console.log("existedUser", existedUser);
+  // checking whether the entered password is correct or not
+  const isPasswordCorrect = await existedUser.isPasswordCorrect(password);
+  if (!isPasswordCorrect) {
+    throw new ApiError(400, "Password is incorrect");
+  }
+  // generating access token and refresh Token to store in database as well as provide it to user
+  const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
+    existedUser._id
+  );
+  const loggedInUser = await User.findById(existedUser._id).select(
+    "-password -refreshToken"
+  );
+
+  const options = {
+    httpOnly: true, //The httpOnly property is set to true, which means that the cookie can only be accessed by the server.
+    secure: true, // The secure property is also set to true, which means that the cookie will only be sent over secure (HTTPS) connections.
+  };
+
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+      new ApiResponse(
+        200,
+        { user: loggedInUser, accessToken, refreshToken },
+        "User logged in successfully"
+      )
+    );
+});
+
+export { register, loginUser };
