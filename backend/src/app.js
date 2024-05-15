@@ -23,4 +23,10 @@ app.use(express.static("public")); // this method is used to serve static files
 
 app.use(cookieParser()); // this method is used to parse Cookie header and populate req.cookies with an object keyed by the cookie names
 
+// routes importing
+
+import userRouter from "./routes/user.routes.js";
+
+app.use("/api/v1/users", userRouter); // this method is used to mount the specified middleware function(s) at the path which is being called
+// url will be https://localhost:8000/api/v1/users/register
 export default app;
