@@ -4,7 +4,6 @@ import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
@@ -310,6 +309,22 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
   }
 });
 
+const getUserProfile = asyncHandler(async (req, res) => {
+  const { username } = req.params;
+  if (!username) {
+    throw new ApiError(400, "Username is required");
+  }
+  const user = await User.findOne({ username }).select(
+    "-password -refreshToken"
+  );
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "User found successfully"));
+});
+
 export {
   register,
   loginUser,
@@ -318,4 +333,5 @@ export {
   changeCurrentPassword,
   changeProfilePicture,
   refreshAccessToken,
+  getUserProfile,
 };

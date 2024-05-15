@@ -9,6 +9,7 @@ import {
   changeCurrentPassword,
   changeProfilePicture,
   refreshAccessToken,
+  getUserProfile,
 } from "../controllers/user.controller.js"; // this method is used to import the register function from the user.controller.js file
 
 const router = Router(); // this method is used to create a new router object
@@ -28,6 +29,7 @@ router
   .patch(verifyJWT, upload.single("profilePicture"), changeProfilePicture);
 
 router.route("/refreshAccessToken").post(refreshAccessToken);
+router.route("/getUserProfile/:username").get(verifyJWT, getUserProfile);
 
 export default router; // this method is used to export the router object
 // Path: backend/src/routes/user.routes.js
