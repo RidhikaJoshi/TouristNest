@@ -10,11 +10,11 @@ connectDB()
     app.on("error", (error) => {
       // using arrow function to catch error occured in connecting express and database
       console.log("Error occured in server", error);
-      throw error;
+      throw error; // if any error ocuurrred in connecting express and database then it will throw error
     });
     app.listen(process.env.PORT || 8000, () => {
       console.log(`Server is running on port ${process.env.PORT}`);
-    });
+    }); // to check whether connection is established or not
   })
   .catch((err) => {
     console.log("Error occured in connecting to database", err);
