@@ -61,7 +61,6 @@ const register = asyncHandler(async (req, res) => {
   }
 
   const localProfilePicture = req.file.path;
-  console.log("localProfilePicture", localProfilePicture);
   if (!localProfilePicture) {
     throw new ApiError(400, "Profile Picture is required");
   }
@@ -162,4 +161,161 @@ const logout = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "User logged out successfully"));
 });
 
-export { register, loginUser, logout };
+const changeFullnamePhoneNumber = asyncHandler(async (req, res) => {
+  const { fullName, phone } = req.body;
+  if (!fullName && !phone) {
+    throw new ApiError(400, "FullName or phone Number is required");
+  }
+  if (fullName !== "") {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      { fullName },
+      { new: true }
+    );
+    if (!updatedUser) {
+      throw new ApiError(
+        500,
+        "Internal Server error occurred while updating user details "
+      );
+    }
+  }
+  if (phone !== "") {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      { phone },
+      { new: true }
+    );
+    if (!updatedUser) {
+      throw new ApiError(
+        500,
+        "Internal Server error occurred while updating user details "
+      );
+    }
+  }
+  const user = await User.findById(req.user._id).select(
+    "-password -refreshToken"
+  );
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "User Details Updated successfully"));
+});
+
+const changeCurrentPassword = asyncHandler(async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  if (currentPassword === "" || newPassword === "") {
+    throw new ApiError(400, "All fields are required");
+  }
+  const user = await User.findById(req.user._id);
+  if (!(await user.isPasswordCorrect(currentPassword))) {
+    throw new ApiError(400, "Current Password is incorrect");
+  }
+  const userUpdated = await User.findById(req.user._id);
+  userUpdated.password = newPassword;
+  const newUpdateduser = await userUpdated.save({ validateBeforeSave: false });
+
+  if (!newUpdateduser) {
+    throw new ApiError(
+      500,
+      "Internal Server error occurred while updating password"
+    );
+  }
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, newUpdateduser, "Password changed successfully")
+    );
+});
+
+const changeProfilePicture = asyncHandler(async (req, res) => {
+  const profilePicture = req.file?.path;
+  if (!profilePicture) {
+    throw new ApiError(400, "Profile Picture is required");
+  }
+
+  const updatedProfilePicture = await uploadOnCloudinary(profilePicture);
+  if (!updatedProfilePicture) {
+    throw new ApiError(
+      500,
+      "Internal Server Error occurred while uploading profile picture on cloudinary"
+    );
+  }
+  const user = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: {
+        profilePicture: updatedProfilePicture.url,
+      },
+    }, // Remove the extra opening curly brace here
+    {
+      new: true,
+    }
+  ).select("-password -refreshToken");
+
+  if (!user) {
+    throw new ApiError(
+      500,
+      "Internal Server error occurred while updating profile picture"
+    );
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "Profile Picture updated successfully"));
+});
+
+const refreshAccessToken = asyncHandler(async (req, res) => {
+  const incomingRefreshToken =
+    req.cookies.refreshToken || req.body.refreshToken;
+  //console.log("incomingRefreshToken", incomingRefreshToken);
+  if (!incomingRefreshToken) {
+    throw new ApiError(400, "Refresh Token is required");
+  }
+  try {
+    // firstly verify whether the incoming refresh token is correct or not
+    const decodedToken = jwt.verify(
+      incomingRefreshToken,
+      process.env.REFRESH_TOKEN_SECRET
+    );
+    const user = await User.findById(decodedToken?._id);
+    if (!user) {
+      throw new ApiError(401, "Invalid Refresh Token");
+    }
+    if (user.refreshToken !== incomingRefreshToken) {
+      throw new ApiError(401, "Refresh Token is expired or used");
+    }
+    const { accessToken, refreshToken: newrefreshToken } =
+      await generateAccessAndRefreshTokens(user._id);
+
+    const options = {
+      httpOnly: true, // only server can change the cookies
+      secure: true, // https request only
+    };
+    //console.log(newrefreshToken);
+    return res
+      .status(200)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", newrefreshToken, options)
+      .json(
+        new ApiResponse(
+          200,
+          {
+            accessToken,
+            refreshToken: newrefreshToken,
+          },
+          "Access Token Refreshed Successfully"
+        )
+      );
+  } catch (error) {
+    console.log(error);
+    throw new ApiError(401, "Invalid Refresh Token");
+  }
+});
+
+export {
+  register,
+  loginUser,
+  logout,
+  changeFullnamePhoneNumber,
+  changeCurrentPassword,
+  changeProfilePicture,
+  refreshAccessToken,
+};
