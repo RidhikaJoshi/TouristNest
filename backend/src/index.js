@@ -12,7 +12,7 @@ connectDB()
       console.log("Error occured in server", error);
       throw error; // if any error ocuurrred in connecting express and database then it will throw error
     });
-    app.listen(process.env.PORT || 8000, () => {
+    app.listen(process.env.PORT || 4000, () => {
       console.log(`Server is running on port ${process.env.PORT}`);
     }); // to check whether connection is established or not
   })
