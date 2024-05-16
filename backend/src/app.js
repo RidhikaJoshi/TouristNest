@@ -27,9 +27,12 @@ app.use(cookieParser()); // this method is used to parse Cookie header and popul
 
 import userRouter from "./routes/user.routes.js";
 import hotelRouter from "./routes/hotel.routes.js";
+import reviewRouter from "./routes/reviews.routes.js";
 
 app.use("/api/v1/users", userRouter); // this method is used to mount the specified middleware function(s) at the path which is being called
 // url will be https://localhost:8000/api/v1/users/register
 
 app.use("/api/v1/hotels", hotelRouter); // this method is used to mount the specified middleware function(s) at the path which is being called
+
+app.use("/api/v1/reviews", reviewRouter);
 export default app;
