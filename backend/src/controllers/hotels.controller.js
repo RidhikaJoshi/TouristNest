@@ -2,7 +2,6 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
-import jwt from "jsonwebtoken";
 import { Hotel } from "../models/hotels.model.js";
 import { isValidObjectId } from "mongoose";
 
@@ -17,6 +16,23 @@ const getAllHotels = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(new ApiResponse(200, hotels, "Hotels fetched successfully"));
+});
+
+const getHoteldetailsById = asyncHandler(async (req, res) => {
+  const { hotelId } = req.params;
+  if (!hotelId) {
+    throw new ApiError(400, "Hotel ID is required");
+  }
+  if (!isValidObjectId(hotelId)) {
+    throw new ApiError(400, "Invalid hotel ID");
+  }
+  const hotel = await Hotel.findById(hotelId);
+  if (!hotel) {
+    throw new ApiError(404, "Hotel not found in the database");
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse(200, hotel, "Hotel fetched successfully"));
 });
 
 const addHotels = asyncHandler(async (req, res) => {
@@ -110,4 +126,65 @@ const updateHotelDetails = asyncHandler(async (req, res) => {
     );
 });
 
-export { addHotels, getAllHotels, updateHotelDetails };
+const updatedHotelsPicture = asyncHandler(async (req, res) => {
+  const { hotelId } = req.params;
+  if (!hotelId) {
+    throw new ApiError(400, "Hotel ID is required");
+  }
+  if (!isValidObjectId(hotelId)) {
+    throw new ApiError(400, "Invalid hotel ID");
+  }
+  const pictureLocalPath = req.file.path;
+  if (!pictureLocalPath) {
+    throw new ApiError(400, "Picture is required");
+  }
+  const picture = await uploadOnCloudinary(pictureLocalPath);
+  if (!picture) {
+    throw new ApiError(500, "Failed to upload picture on cloudinary");
+  }
+  const updatedHotels = await Hotel.findByIdAndUpdate(
+    hotelId,
+    {
+      $set: {
+        picture: picture.url,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+  if (!updatedHotels) {
+    throw new ApiError(404, "Hotel not found");
+  }
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, updatedHotels, "Hotel picture updated successfully")
+    );
+});
+
+const deleteHotelById = asyncHandler(async (req, res) => {
+  const { hotelId } = req.params;
+  if (!hotelId) {
+    throw new ApiError(400, "Hotel ID is required");
+  }
+  if (!isValidObjectId(hotelId)) {
+    throw new ApiError(400, "Invalid hotel ID");
+  }
+  const hotel = await Hotel.findByIdAndDelete(hotelId);
+  if (!hotel) {
+    throw new ApiError(404, "Hotel not found");
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Hotel deleted successfully"));
+});
+
+export {
+  addHotels,
+  getAllHotels,
+  updateHotelDetails,
+  updatedHotelsPicture,
+  getHoteldetailsById,
+  deleteHotelById,
+};
