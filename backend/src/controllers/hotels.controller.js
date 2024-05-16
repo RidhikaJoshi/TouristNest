@@ -4,6 +4,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
 import { Hotel } from "../models/hotels.model.js";
+import { isValidObjectId } from "mongoose";
 
 const getAllHotels = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
@@ -61,4 +62,52 @@ const addHotels = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, newHotel, "Hotel added successfully"));
 });
 
-export { addHotels, getAllHotels };
+const updateHotelDetails = asyncHandler(async (req, res) => {
+  const { hotelId } = req.params;
+  if (!hotelId) {
+    throw new ApiError(400, "Hotel ID is required");
+  }
+  if (!isValidObjectId(hotelId)) {
+    throw new ApiError(400, "Invalid hotel ID");
+  }
+  const { name, describtion, tags, price, country, state, location } = req.body;
+  if (
+    !name &&
+    !describtion &&
+    !tags &&
+    !price &&
+    !country &&
+    !state &&
+    !location
+  ) {
+    throw new ApiError(400, "Atleast one field is required to update");
+  }
+  const hotel = await Hotel.findById(hotelId);
+  const updatedHotels = await Hotel.findByIdAndUpdate(
+    hotelId,
+    {
+      $set: {
+        name: name ? name : hotel.name,
+        describtion: describtion ? describtion : hotel.describtion,
+        tags: tags ? tags : hotel.tags,
+        price: price ? price : hotel.price,
+        country: country ? country : hotel.country,
+        state: state ? state : hotel.state,
+        location: location ? location : hotel.location,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+  if (!updatedHotels) {
+    throw new ApiError(404, "Hotel not found");
+  }
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, updatedHotels, "Hotel details updated successfully")
+    );
+});
+
+export { addHotels, getAllHotels, updateHotelDetails };
