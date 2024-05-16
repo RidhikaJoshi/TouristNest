@@ -19,6 +19,16 @@ const hotelSchema = new mongoose.Schema(
     },
     tags: {
       type: [String],
+      enum: [
+        "Full-Service Hotels",
+        "Boutique Hotels",
+        "Budget-Friendly Hotels",
+        "Luxury Hotels",
+        "Resort Hotels",
+        "Business Hotels",
+        "Extended-Stay Hotels",
+        "Eco-Friendly Hotels",
+      ],
       required: true,
     }, //array of strings
     price: {
