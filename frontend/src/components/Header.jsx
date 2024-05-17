@@ -1,23 +1,34 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch,useSelector } from 'react-redux'
 import  {useNavigate} from 'react-router-dom'
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { logout } from '@/store/authSlice'
 
 function Header() {
     const authStatus=useSelector((state)=>state.auth.status);
     console.log(`${authStatus} ReloadHeader`);
     const navigate=useNavigate();
-    const [position, setPosition] = React.useState("bottom")
+    const dispatch=useDispatch();
+    
+    const [position, setPosition] = React.useState("bottom");
+
+
+    function logoutHandler(){
+      dispatch(logout());
+      localStorage.setItem('userLoggedIn', 'false');
+      localStorage.setItem('userData', JSON.stringify({}));
+      navigate('/login');
+    }
+
     const NavItems=[
      {
         name:"Home",
@@ -38,7 +49,7 @@ function Header() {
         name:"SignUp",
         slug:'/register',
         active:!authStatus,
-      }
+      },
     ];
 
 
@@ -62,6 +73,13 @@ function Header() {
                   
                   }
                 })}
+                {
+                  authStatus && <DropdownMenuSeparator />
+                }
+                {
+                  authStatus && <DropdownMenuRadioItem value='Logout' onClick={logoutHandler}>Logout</DropdownMenuRadioItem>
+                }
+                
                 
               </DropdownMenuRadioGroup>
             </DropdownMenuContent>

@@ -36,6 +36,8 @@ function LoginPage() {
         try{
             const response=await axios.post("http://localhost:4000/api/v1/users/login",{email,password});
              dispatch(login({ userData: response.data }));
+             localStorage.setItem('userLoggedIn', 'true');
+             localStorage.setItem('userData', JSON.stringify(response.data));
             navigate('/');
         }catch(error)
         {

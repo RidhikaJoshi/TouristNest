@@ -23,6 +23,18 @@ const generateAccessAndRefreshTokens = async (userId) => {
   }
 };
 
+const getCurrentlyLoggedInUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user?._id).select(
+    "-password -refreshToken"
+  );
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "User found successfully"));
+});
+
 const register = asyncHandler(async (req, res) => {
   const { username, fullName, email, phone, password } = req.body;
   //console.log("req.body", req.body);
@@ -334,4 +346,5 @@ export {
   changeProfilePicture,
   refreshAccessToken,
   getUserProfile,
+  getCurrentlyLoggedInUser,
 };
