@@ -21,85 +21,125 @@ function SignUpPage() {
     const [fullName, setFullName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
-    const [profilePicture, setProfilePicture] = useState();
+    const [profilePicture, setProfilePicture] = useState(null);
     const [password, setPassword] = useState('');
-    const [SignUp, setSignUp] = useState('Create Account');
+   const [signUpText, setSignUpText] = useState('Create Account');
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-      const SignUpHandler=async(e)=>{
-        e.preventDefault;
-        setSignUp('Signing Up...');
-        if(!username || !fullName || !phone || !email || !profilePicture || !password){
-          alert('Please fill in all fields');
-          setUsername('');
-          setFullName('');
-          setPhone('');
-          setEmail('');
-          setProfilePicture();
-          setPassword('');
-          setSignUp('SignUp');
-          return;
-        }
-        try{
-          const response=await axios.post("http://localhost:4000/api/v1/users/register",{username,fullName,phone,email,profilePicture,password});
-          dispatch(login({userData:response.data}));
-          navigate('/');
-      }catch(error)
-      {
-        console.log(error);
-        setEmail('');
-        setPassword('');
-        setSignUp('Create Account');
-      }
+       const signUpHandler = async (e) => {
+    e.preventDefault();
+    setSignUpText('Signing Up...');
+
+    if (!username || !fullName || !phone || !email || !profilePicture || !password) {
+      alert('Please fill in all fields');
+      setSignUpText('Create Account');
+      return;
     }
 
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('fullName', fullName);
+    formData.append('phone', phone);
+    formData.append('email', email);
+    formData.append('profilePicture', profilePicture);
+    formData.append('password', password);
+
+    try {
+      const response = await axios.post('http://localhost:4000/api/v1/users/register', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      dispatch(login({ userData: response.data }));
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+      setSignUpText('Create Account');
+    }
+  };
 
   return (
-   <div className='w-full min-h-96 mt-3 mb-3 flex items-center justify-center'>
-    <Card className="w-[350px]">
-      <CardHeader>
-        <CardTitle>Create your Account</CardTitle>
-        <CardDescription>Securely create your account now.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label >Username</Label>
-              <Input id="name" placeholder="Enter your Username" value={username} onChange={(e)=>setUsername(e.target.value)} required />
+    <div className='w-full min-h-96 mt-3 mb-3 flex items-center justify-center'>
+      <Card className="w-[350px]">
+        <CardHeader>
+          <CardTitle>Create your Account</CardTitle>
+          <CardDescription>Securely create your account now.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={signUpHandler}>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label>Username</Label>
+                <Input
+                  id="username"
+                  placeholder="Enter your Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label>Full Name</Label>
+                <Input
+                  id="fullName"
+                  placeholder="Enter your Full Name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label>Email</Label>
+                <Input
+                  id="email"
+                  placeholder="Enter your Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label>Phone</Label>
+                <Input
+                  id="phone"
+                  placeholder="Enter your Phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label>Profile Picture</Label>
+                <Input
+                  type="file"
+                  name="profilePicture"
+                  id="profilePicture"
+                  accept="image/gif, image/jpeg, image/png"
+                  onChange={(e) => setProfilePicture(e.target.files[0])}
+                  required
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label>Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label >FullName</Label>
-              <Input id="name" placeholder="Enter your Username" value={fullName} onChange={(e)=>setFullName(e.target.value)} required />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label >Email</Label>
-              <Input id="name" placeholder="Enter your Email" value={email} onChange={(e)=>setEmail(e.target.value)} required />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label >Phone</Label>
-              <Input id="name" placeholder="Enter your Email" value={phone} onChange={(e)=>setPhone(e.target.value)} required />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label >Profile Picture</Label>
-              <Input type="file" placeholder="Enter your profile picture" value={profilePicture} onChange={(e)=>setProfilePicture(e.target.value)} required />
-            </div>
-             <div className="flex flex-col space-y-1.5">
-              <Label >Password</Label>
-              <Input id="name" type="password" placeholder="Enter your password" value={password} onChange={(e)=>setPassword(e.target.value)} required />
-            </div>
-            
-          </div>
-        </form>
-      </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button onClick={SignUpHandler}>{SignUp}</Button>
-      </CardFooter> 
-    </Card>
+          </form>
+        </CardContent>
+        <CardFooter className="flex justify-between">
+          <Button onClick={signUpHandler}>{signUpText}</Button>
+        </CardFooter>
+      </Card>
     </div>
-
-  )
+  );
 }
 
 export default SignUpPage
