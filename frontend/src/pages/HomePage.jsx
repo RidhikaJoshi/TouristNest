@@ -30,7 +30,7 @@ function HomePage() {
 
   return (
     
-    <div className='w-full min-h-96 flex items-center justify-center'>
+    <div className='w-full min-h-96 flex flex-wrap items-center justify-evenly gap-4 mt-4 mb-4'>
       { hotels && hotels.map((hotel) => (
         <Card className="w-[350px]" key={hotel._id}>
           <CardHeader>

@@ -15,7 +15,7 @@ import { logout } from '@/store/authSlice'
 
 function Header() {
     const authStatus=useSelector((state)=>state.auth.status);
-    console.log(`${authStatus} ReloadHeader`);
+    // console.log(`${authStatus} ReloadHeader`);
     const navigate=useNavigate();
     const dispatch=useDispatch();
     
@@ -69,7 +69,7 @@ function Header() {
               <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
                 {NavItems.map((item,index)=>{
                   if(item.active){
-                    return <Link to={item.slug} key={index}><DropdownMenuRadioItem value={item.name}>{item.name}</DropdownMenuRadioItem></Link>
+                    return <Link to={item.slug} key={index}><DropdownMenuRadioItem value={item.name} >{item.name}</DropdownMenuRadioItem></Link>
                   
                   }
                 })}

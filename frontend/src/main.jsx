@@ -10,6 +10,7 @@ import {lazy}  from 'react'
 const HomePage = lazy(()=>import('./pages/HomePage.jsx'));
 const LoginPage = lazy(()=>import('./pages/LoginPage.jsx'));
 const SignUpPage = lazy(()=>import('./pages/SignUpPage.jsx'));
+const MyProfilePage = lazy(()=>import('./pages/MyProfilePage.jsx'));
 
 
 const router = createHashRouter(
@@ -29,6 +30,10 @@ const router = createHashRouter(
       {
         path:'register',
         element:<SignUpPage/>
+      },
+      {
+        path:'profile',
+        element:<MyProfilePage/>
       }
     ]
   }
