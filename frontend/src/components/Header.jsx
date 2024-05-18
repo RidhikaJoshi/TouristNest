@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { logout } from '@/store/authSlice'
+import { GiHamburgerMenu } from "react-icons/gi";
 
 function Header() {
     const authStatus=useSelector((state)=>state.auth.status);
@@ -56,14 +57,14 @@ function Header() {
   return (
     <div className='min-h-24 bg-slate-200 border-b-[0.1px] border-slate-500 text-white w-full flex flex-row justify-evenly items-center'>
         
-        
+        <h1 className='italics text-black font-serif font-semibold text-xl'>TouristNest</h1>
         
         
         {/* For multiple options */}
         <div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className=' text-black' variant="outline">Open</Button>
+              <Button className=' text-black' variant="outline"><GiHamburgerMenu /></Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
               <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>

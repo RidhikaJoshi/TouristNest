@@ -17,7 +17,7 @@ function HomePage() {
     const fetchHotels = async () => {
       try {
         const response = await axios.get("http://localhost:4000/api/v1/hotels/getAllHotels")
-        console.log(response.data);
+        console.log("hotels:",response.data);
         setHotels(response.data.data);
       } catch (error) {
         console.error('Error fetching hotels:', error)
@@ -42,18 +42,12 @@ function HomePage() {
               <div>
                 <img src={hotel.picture} alt={hotel.name} className="w-full h-52 object-cover" />
               </div>
-              <div className="flex flex-col space-y-1">
-                <p>Price: {hotel.price}</p>
-                <p>Location: {hotel.location}</p>
-                <p>Country: {hotel.country}</p>
-                <p>State: {hotel.state}</p>
-              </div>
             </div>
             
           </CardContent>
           <CardFooter className="flex justify-between">
             <Button>View Details</Button>
-            <Button>Book Now</Button>
+            <Button >Book Now</Button>
           </CardFooter>
         </Card>
       ))
