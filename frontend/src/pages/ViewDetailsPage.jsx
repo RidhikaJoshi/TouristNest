@@ -180,7 +180,7 @@ return (
                     <p className="text-slate-900 font-semibold">Country:{country}</p>
                     {
                         owner === currentUserId.user._id ? (
-                            <div className='flex flex-row gap-10'>
+                            <div className='flex flex-row flex-wrap gap-10'>
 
                                 {/* // Edit Hotel Details */}
                                 <Dialog>
