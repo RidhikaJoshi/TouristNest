@@ -11,6 +11,8 @@ const HomePage = lazy(()=>import('./pages/HomePage.jsx'));
 const LoginPage = lazy(()=>import('./pages/LoginPage.jsx'));
 const SignUpPage = lazy(()=>import('./pages/SignUpPage.jsx'));
 const MyProfilePage = lazy(()=>import('./pages/MyProfilePage.jsx'));
+const ViewDetailsPage= lazy(()=>import('./pages/ViewDetailsPage.jsx'));
+const AddHotelsPage = lazy(()=>import('./pages/AddHotelsPage.jsx'));
 
 
 const router = createHashRouter(
@@ -34,6 +36,14 @@ const router = createHashRouter(
       {
         path:'profile',
         element:<MyProfilePage/>
+      },
+      {
+        path:"hotels/:id",
+        element:<ViewDetailsPage/>
+      },
+      {
+        path:"addHotels",
+        element:<AddHotelsPage/>
       }
     ]
   }

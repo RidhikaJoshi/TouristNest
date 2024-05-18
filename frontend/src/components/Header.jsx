@@ -37,6 +37,11 @@ function Header() {
         active:true
       },
       {
+        name:"Add Hotels",
+        slug:'/addHotels',
+        active:authStatus
+      },
+      {
         name:"My Profile",
         slug:'/profile',
         active:authStatus
@@ -67,7 +72,7 @@ function Header() {
               <Button className=' text-black' variant="outline"><GiHamburgerMenu /></Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
-              <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+              
                 {NavItems.map((item,index)=>{
                   if(item.active){
                     return <Link to={item.slug} key={index}><DropdownMenuRadioItem value={item.name} >{item.name}</DropdownMenuRadioItem></Link>
@@ -82,7 +87,7 @@ function Header() {
                 }
                 
                 
-              </DropdownMenuRadioGroup>
+             
             </DropdownMenuContent>
         </DropdownMenu>
     </div>
