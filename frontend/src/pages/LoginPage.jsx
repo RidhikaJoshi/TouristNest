@@ -16,6 +16,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import config from "../config/config.js"; 
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
 
 function LoginPage() {
     const [email, setEmail] = useState('');
@@ -23,12 +25,15 @@ function LoginPage() {
     const [Login, setLogin] = useState('Login');
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { toast } = useToast()
 
     const loginHandler = async(e) => {
          e.preventDefault();
          setLogin('Logging in...');
         if(!email || !password) {
-            alert('Please fill in all fields');
+            toast({
+          description: "Please fill All the Fields .",
+        })
             setEmail('');
             setPassword('');
             setLogin('Login');
@@ -40,11 +45,18 @@ function LoginPage() {
              dispatch(login({ userData: response.data.data }));
              localStorage.setItem('userLoggedIn', 'true');
              localStorage.setItem('userData', JSON.stringify(response.data.data));
+              toast({
+          description: "You are LoggedIn .",
+        })
             navigate('/');
         }catch(error)
         {
           console.error('Error during login:', error);
-          alert('Error during login, please try again.');
+          toast({
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
           setEmail('');
           setPassword('');
           setLogin('Login');

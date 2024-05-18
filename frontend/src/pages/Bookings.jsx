@@ -80,6 +80,9 @@ function Bookings() {
       }catch(error)
       {
         console.error('Error booking hotel:', error);
+        setCheckIn(null);
+        setCheckOut(null);
+        setNumberOfRooms(1);
         toast({
           title: "Uh oh! Something went wrong.",
           description: "There was a problem with your request.",

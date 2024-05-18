@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import config from "../config/config.js";
+import { useToast } from "@/components/ui/use-toast"
 
 function SignUpPage() {
     const [username, setUsername] = useState('');
@@ -27,13 +28,16 @@ function SignUpPage() {
    const [signUpText, setSignUpText] = useState('Create Account');
     const dispatch = useDispatch();
     const navigate = useNavigate();
+     const { toast } = useToast()
 
        const signUpHandler = async (e) => {
     e.preventDefault();
     setSignUpText('Signing Up...');
 
     if (!username || !fullName || !phone || !email || !profilePicture || !password) {
-      alert('Please fill in all fields');
+      toast({
+          description: "Please fill all the fields",
+        })
       setSignUpText('Create Account');
       return;
     }
@@ -56,6 +60,9 @@ function SignUpPage() {
       // dispatch(login({ userData: response.data }));
       localStorage.setItem('userLoggedIn', 'true');
       localStorage.setItem('userData', JSON.stringify(response.data.data));
+      toast({
+          description: "You have successfully Signed Up.Kindly Login .",
+        })
       navigate('/login');
     } catch (error) {
       console.log(error);
