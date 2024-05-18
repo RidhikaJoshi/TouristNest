@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import config from "../config/config.js"; 
 
 function HomePage() {
     const [hotels, setHotels] = useState([]);
@@ -16,7 +17,7 @@ function HomePage() {
   useEffect(() => {
     const fetchHotels = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/v1/hotels/getAllHotels")
+        const response = await axios.get(`${config.BASE_URL}/api/v1/hotels/getAllHotels`);
         console.log("hotels:",response.data);
         setHotels(response.data.data);
       } catch (error) {

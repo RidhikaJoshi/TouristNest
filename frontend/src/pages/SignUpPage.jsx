@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import config from "../config/config.js";
 
 function SignUpPage() {
     const [username, setUsername] = useState('');
@@ -46,13 +47,16 @@ function SignUpPage() {
     formData.append('password', password);
 
     try {
-      const response = await axios.post('http://localhost:4000/api/v1/users/register', formData, {
+      const response = await axios.post(`${config.BASE_URL}/api/v1/users/register`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      dispatch(login({ userData: response.data }));
-      navigate('/');
+      console.log("signup response",response.data);
+      // dispatch(login({ userData: response.data }));
+      localStorage.setItem('userLoggedIn', 'true');
+      localStorage.setItem('userData', JSON.stringify(response.data.data));
+      navigate('/login');
     } catch (error) {
       console.log(error);
       setSignUpText('Create Account');

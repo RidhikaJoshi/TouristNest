@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { current } from '@reduxjs/toolkit';
+import config from "../config/config.js"; 
 
 function MyprofilePage() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('userData')) || {});
@@ -35,7 +36,7 @@ function MyprofilePage() {
     e.preventDefault(); // Prevent default form submission
     try {
         const response = await axios.patch(
-            "http://localhost:4000/api/v1/users/changeFullnamePhoneNumber",
+            `${config.BASE_URL}/api/v1/users/changeFullnamePhoneNumber`,
             { fullName: fullNameUpdated?fullNameUpdated:fullName, phone: phoneUpdated?phoneUpdated:phone },
             {
                 headers: {

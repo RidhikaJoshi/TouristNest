@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import config from "../config/config.js"; 
 
 function LoginPage() {
     const [email, setEmail] = useState('');
@@ -34,7 +35,7 @@ function LoginPage() {
             return;
         }
         try{
-            const response=await axios.post("http://localhost:4000/api/v1/users/login",{email,password});
+            const response=await axios.post(`${config.BASE_URL}/api/v1/users/login`,{email,password});
             console.log("login response",response.data.data);
              dispatch(login({ userData: response.data.data }));
              localStorage.setItem('userLoggedIn', 'true');
