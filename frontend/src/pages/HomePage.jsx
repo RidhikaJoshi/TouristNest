@@ -12,10 +12,12 @@ import {
 import config from "../config/config.js"; 
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { useDispatch,useSelector } from 'react-redux'
 
 function HomePage() {
     const [hotels, setHotels] = useState([]);
     const navigate = useNavigate();
+     const authStatus=useSelector((state)=>state.auth.status);
 
   useEffect(() => {
     const fetchHotels = async () => {
@@ -51,7 +53,7 @@ function HomePage() {
             
           </CardContent>
           <CardFooter className="flex justify-between">
-            <Link  to={`/hotels/${hotel._id}`}><Button >View Details</Button></Link>
+            <Link  to={authStatus?`/hotels/${hotel._id}`:`/login`}><Button >View Details</Button></Link>
             <Button >Book Now</Button>
           </CardFooter>
         </Card>

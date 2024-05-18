@@ -25,7 +25,6 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { Link } from 'react-router-dom'
 
 
 function ViewDetailsPage() {
@@ -46,10 +45,13 @@ function ViewDetailsPage() {
     const [owner, setOwner] = React.useState("");
     const [country, setCountry] = React.useState("");
     const [state, setState] = React.useState("");
+    const [picture, setPicture] = React.useState("");
+    const [pictureUpdated, setPictureUpdated] = React.useState("");
+    const [saving, setSaving] = React.useState("Save Changes");
 
 
 
-    console.log("hotelId:",hotelId);
+    //console.log("hotelId:",hotelId);
     useEffect(() => {
         const currentUserId = JSON.parse(localStorage.getItem('userData')); 
         //console.log("currentUserId:", currentUserId.user._id);
@@ -66,6 +68,7 @@ function ViewDetailsPage() {
                 setOwner(response.data.data.owner);
                 setCountry(response.data.data.country);
                 setState(response.data.data.state);
+                setPicture(response.data.data.picture);
 
             } catch (error) {
                 console.error('Error fetching hotel:', error);
@@ -84,7 +87,7 @@ function ViewDetailsPage() {
                 }
             );
            
-            console.log("hotel:", response.data.data);
+            //console.log("hotel:", response.data.data);
             setHotel(response.data.data);
             navigate('/');
            
@@ -93,7 +96,9 @@ function ViewDetailsPage() {
         }
     };
 
-    const EditHotelDetails = async () => {
+    const EditHotelDetails = async (e) => {
+        e.preventDefault();
+        setSaving("Saving...");
         try {
             const response = await axios.patch(`${config.BASE_URL}/api/v1/hotels/${hotelId}`,
                 {
@@ -111,7 +116,7 @@ function ViewDetailsPage() {
                 }
             );
             console.log("hotel:", response.data.data);
-
+            setSaving("Save Changes");
             setHotel(response.data.data);
             setName(response.data.data.name);
             setDescription(response.data.data.description);
@@ -129,6 +134,30 @@ function ViewDetailsPage() {
         }
     };
 
+    const EditPictureHandler = async (e) => {
+        e.preventDefault();
+        setSaving("Saving...");
+        const formData = new FormData();
+        formData.append('picture', pictureUpdated);
+        try {
+            const response = await axios.patch(`${config.BASE_URL}/api/v1/hotels/updatedHotelsPicture/${hotelId}`, formData,
+                {
+                    headers: {
+                         "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${currentUserId?.accessToken}`,
+                    },
+                }
+            );
+            console.log("hotel:", response.data.data);
+            setSaving("Save Changes");
+            setHotel(response.data.data);
+            setPicture(response.data.data.picture);
+            setPictureUpdated(null);
+            navigate(`/hotels/${hotelId}`);
+        } catch (error) {
+            console.error('Error fetching hotel:', error);
+        }
+    };
 
 
 return (
@@ -136,7 +165,7 @@ return (
         <div className="md:w-[60%] w-full  p-4 flex flex-col gap-5 text-l">
             {Object.keys(hotel).length > 0 ? (
                 <>
-                    <img src={hotel.picture} alt={name} className="w-full h-96" />
+                    <img src={picture} alt={name} className="w-full h-96" />
                     <h1 className="md:text-4xl text-3xl font-bold mt-4">{name}</h1>
                     <p className="text-slate-900">{description}</p>
                     <div className='flex flex-row gap-3 '>
@@ -151,10 +180,12 @@ return (
                     <p className="text-slate-900 font-semibold">Country:{country}</p>
                     {
                         owner === currentUserId.user._id ? (
-                            <div className='flex flex-row gap-4 '>
+                            <div className='flex flex-row gap-10'>
+
+                                {/* // Edit Hotel Details */}
                                 <Dialog>
                                 <DialogTrigger asChild>
-                                    <Button variant="outline">Edit Hotel Details</Button>
+                                    <Button variant="outline" className='border-black border-2'>Edit Hotel Details</Button>
                                 </DialogTrigger>
                                 <DialogContent className="sm:max-w-[425px]">
                                     <DialogHeader>
@@ -210,14 +241,40 @@ return (
 
                                     </div>
                                     <DialogFooter>
-                                    <Button  onClick={EditHotelDetails}>Save changes</Button>
+                                    <Button  onClick={EditHotelDetails}>{saving}</Button>
                                     </DialogFooter>
                                 </DialogContent>
                                 </Dialog>
 
+                                {/* Edit Hotel Picture */}
+                                <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button variant="outline" className='border-black border-2'>Edit Hotel Picture</Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <DialogHeader>
+                                    <DialogTitle>Edit Hotel Picture</DialogTitle>
+                                    <DialogDescription>
+                                        Make changes to your Hotel Picture here. Click save when you're done.
+                                    </DialogDescription>
+                                    </DialogHeader>
+                                    <div className="grid gap-4 py-4">
+                                        <div className="flex flex-col gap-2">
+                                           <Label htmlFor="name" >Picture</Label>
+                                            <Input id="name" type="file" accept="image/gif, image/jpeg, image/png" onChange={(e) => setPictureUpdated(e.target.files[0])
+                                            }className="col-span-3" />
+                                        </div>
+                                    </div>
+                                    <DialogFooter>
+                                    <Button  onClick={EditPictureHandler}>{saving}</Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                                </Dialog>
+
+
                                 {/* // delete hotel details */}
                                 <Drawer>
-                                    <DrawerTrigger>Delete</DrawerTrigger>
+                                    <DrawerTrigger className='border-black border-2 rounded-sm px-2'>Delete</DrawerTrigger>
                                     <DrawerContent>
                                         <DrawerHeader>
                                         <DrawerTitle>Are you absolutely sure?</DrawerTitle>
@@ -231,6 +288,9 @@ return (
                                         </DrawerFooter>
                                     </DrawerContent>
                                     </Drawer>
+
+
+                                
 
                             </div>
                         ) : (
