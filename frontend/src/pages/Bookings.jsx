@@ -15,6 +15,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useNavigate } from 'react-router-dom'
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
 
 
 
@@ -28,6 +30,7 @@ function Bookings() {
     const [checkOut, setCheckOut] = useState(null);
     const [numberOfRooms, setNumberOfRooms] = useState(1); // Initialize with 1 room
     const navigate = useNavigate();
+     const { toast } = useToast()
 
   const handleChange = (event) => {
     // Ensure the number of rooms doesn't go below 1
@@ -65,6 +68,9 @@ function Bookings() {
                     },
        });
         console.log("Booking response:", response);
+       toast({
+          description: "Your Booking has been done.",
+        })
         setCheckIn(null);
         setCheckOut(null);
         setNumberOfRooms(1);
@@ -74,6 +80,11 @@ function Bookings() {
       }catch(error)
       {
         console.error('Error booking hotel:', error);
+        toast({
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
       
       }
 

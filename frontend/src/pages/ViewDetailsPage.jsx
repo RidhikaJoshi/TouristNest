@@ -25,6 +25,9 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
+import { set } from 'date-fns';
 
 
 function ViewDetailsPage() {
@@ -48,6 +51,7 @@ function ViewDetailsPage() {
     const [picture, setPicture] = React.useState("");
     const [pictureUpdated, setPictureUpdated] = React.useState("");
     const [saving, setSaving] = React.useState("Save Changes");
+     const { toast } = useToast()
 
 
 
@@ -89,10 +93,18 @@ function ViewDetailsPage() {
            
             //console.log("hotel:", response.data.data);
             setHotel(response.data.data);
+             toast({
+          description: "Your Hotel Listing has been deleted.",
+        })
             navigate('/');
            
         } catch (error) {
             console.error('Error fetching hotel:', error);
+            toast({
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
         }
     };
 
@@ -128,9 +140,18 @@ function ViewDetailsPage() {
             setTagsUpdated("");
             setPriceUpdated("");
             setLocationUpdated("");
+            toast({
+          description: "Your Hotel Details has been updated.",
+        })
             navigate(`/hotels/${hotelId}`);
         } catch (error) {
             console.error('Error fetching hotel:', error);
+            setSaving("Save Changes");
+            toast({
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
         }
     };
 
@@ -153,9 +174,18 @@ function ViewDetailsPage() {
             setHotel(response.data.data);
             setPicture(response.data.data.picture);
             setPictureUpdated(null);
+             toast({
+          description: "Your Hotel Picture has been updated.",
+        })
             navigate(`/hotels/${hotelId}`);
         } catch (error) {
             console.error('Error fetching hotel:', error);
+            setSaving("Save Changes");
+            toast({
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
         }
     };
 
