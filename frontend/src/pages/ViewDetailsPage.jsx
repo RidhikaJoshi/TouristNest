@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import config from "../config/config.js";
@@ -14,6 +14,18 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Link } from 'react-router-dom'
 
 
 function ViewDetailsPage() {
@@ -21,7 +33,22 @@ function ViewDetailsPage() {
     const [hotel,setHotel]=React.useState({});
     const currentUserId = JSON.parse(localStorage.getItem('userData'));
     const navigate = useNavigate();
-    
+    const [nameUpadted , setNameUpdated] = React.useState("");
+    const [descriptionUpdated , setDescriptionUpdated] = React.useState("");
+    const [tagsUpdated , setTagsUpdated] = React.useState("");
+    const [locationUpdated, setLocationUpdated]=useState("");
+    const [priceUpdated, setPriceUpdated]=useState("");
+    const [name, setName] = React.useState("");
+    const [description, setDescription] = React.useState("");
+    const [tags, setTags] = React.useState("");
+    const [location, setLocation] = React.useState("");
+    const [price, setPrice] = React.useState("");
+    const [owner, setOwner] = React.useState("");
+    const [country, setCountry] = React.useState("");
+    const [state, setState] = React.useState("");
+
+
+
     console.log("hotelId:",hotelId);
     useEffect(() => {
         const currentUserId = JSON.parse(localStorage.getItem('userData')); 
@@ -31,6 +58,15 @@ function ViewDetailsPage() {
                 const response = await axios.get(`${config.BASE_URL}/api/v1/hotels/${hotelId}`);
                 //console.log("hotel:", response.data.data);
                 setHotel(response.data.data);
+                setName(response.data.data.name);
+                setDescription(response.data.data.description);
+                setTags(response.data.data.tags);
+                setLocation(response.data.data.location);
+                setPrice(response.data.data.price);
+                setOwner(response.data.data.owner);
+                setCountry(response.data.data.country);
+                setState(response.data.data.state);
+
             } catch (error) {
                 console.error('Error fetching hotel:', error);
             }
@@ -50,12 +86,48 @@ function ViewDetailsPage() {
            
             console.log("hotel:", response.data.data);
             setHotel(response.data.data);
-             navigate("/");
+            navigate('/');
+           
         } catch (error) {
             console.error('Error fetching hotel:', error);
         }
     };
 
+    const EditHotelDetails = async () => {
+        try {
+            const response = await axios.patch(`${config.BASE_URL}/api/v1/hotels/${hotelId}`,
+                {
+                    name: nameUpadted,
+                    description: descriptionUpdated,
+                    tags: tagsUpdated,
+                    price: priceUpdated,
+                    location: locationUpdated
+
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${currentUserId?.accessToken}`,
+                    },
+                }
+            );
+            console.log("hotel:", response.data.data);
+
+            setHotel(response.data.data);
+            setName(response.data.data.name);
+            setDescription(response.data.data.description);
+            setTags(response.data.data.tags);
+            setLocation(response.data.data.location);
+            setPrice(response.data.data.price);
+            setNameUpdated("");
+            setDescriptionUpdated("");
+            setTagsUpdated("");
+            setPriceUpdated("");
+            setLocationUpdated("");
+            navigate(`/hotels/${hotelId}`);
+        } catch (error) {
+            console.error('Error fetching hotel:', error);
+        }
+    };
 
 
 
@@ -64,23 +136,86 @@ return (
         <div className="md:w-[60%] w-full  p-4 flex flex-col gap-5 text-l">
             {Object.keys(hotel).length > 0 ? (
                 <>
-                    <img src={hotel.picture} alt={hotel.name} className="w-full h-96" />
-                    <h1 className="md:text-4xl text-3xl font-bold mt-4">{hotel.name}</h1>
-                    <p className="text-slate-900">{hotel.description}</p>
+                    <img src={hotel.picture} alt={name} className="w-full h-96" />
+                    <h1 className="md:text-4xl text-3xl font-bold mt-4">{name}</h1>
+                    <p className="text-slate-900">{description}</p>
                     <div className='flex flex-row gap-3 '>
-                    {hotel.tags && hotel.tags.map((tag,index)=>(
+                    {tags && tags.map((tag,index)=>(
                         <button key={index} className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white font-semibold py-1 px-3 rounded-full shadow-md hover:from-purple-500 hover:via-pink-600 hover:to-red-600 transform hover:scale-105 transition duration-300 ease-in-out">
   {tag}
 </button>
                     ))}</div>
-                    <p className="text-slate-900 font-semibold">Price: {hotel.price}</p>
-                    <p className="text-slate-900 font-semibold" >Location:{hotel.location}</p>
-                    <p className="text-slate-900 font-semibold">State:{hotel.state}</p>
-                    <p className="text-slate-900 font-semibold">Country:{hotel.country}</p>
+                    <p className="text-slate-900 font-semibold">Price: {price}</p>
+                    <p className="text-slate-900 font-semibold" >Location:{location}</p>
+                    <p className="text-slate-900 font-semibold">State:{state}</p>
+                    <p className="text-slate-900 font-semibold">Country:{country}</p>
                     {
-                        hotel.owner === currentUserId.user._id ? (
+                        owner === currentUserId.user._id ? (
                             <div className='flex flex-row gap-4 '>
-                                <Button >Edit</Button>
+                                <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button variant="outline">Edit Hotel Details</Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[425px]">
+                                    <DialogHeader>
+                                    <DialogTitle>Edit Hotel Details</DialogTitle>
+                                    <DialogDescription>
+                                        Make changes to your Hotel Details here. Click save when you're done.
+                                    </DialogDescription>
+                                    </DialogHeader>
+                                    <div className="grid gap-4 py-4">
+                                        <div className="flex flex-col gap-2">
+                                            <Label htmlFor="name">Name</Label>
+                                            <Input
+                                                type="text"
+                                                id="name"
+                                                value={nameUpadted}
+                                                onChange={(e) => setNameUpdated(e.target.value)}
+                                            />
+                                            </div>
+                                        <div className="flex flex-col gap-2">
+                                            <Label htmlFor="description">Description</Label>
+                                            <Input
+                                                type="text"
+                                                id="description"
+                                                value={descriptionUpdated}
+                                                onChange={(e) => setDescriptionUpdated(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="flex flex-col gap-2">
+                                            <Label htmlFor="tags">Tags</Label>
+                                            <Input
+                                                type="text"
+                                                id="tags"
+                                                value={tagsUpdated}
+                                                onChange={(e) => setTagsUpdated(e.target.value)}
+                                            /></div>
+                                        <div className="flex flex-col gap-2">
+                                            <Label htmlFor="price">Price</Label>
+                                            <Input
+                                                type="text"
+                                                id="price"
+                                                value={priceUpdated}
+                                                onChange={(e) => setPriceUpdated(e.target.value)}
+                                            /></div>
+                                       
+                                        <div className="flex flex-col gap-2">
+                                            <Label htmlFor="location">Location</Label>
+                                            <Input
+                                                type="text"
+                                                id="location"
+                                                value={locationUpdated}
+                                                onChange={(e) => setLocationUpdated(e.target.value)}
+                                            /></div>
+
+                                    </div>
+                                    <DialogFooter>
+                                    <Button  onClick={EditHotelDetails}>Save changes</Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                                </Dialog>
+
+                                {/* // delete hotel details */}
                                 <Drawer>
                                     <DrawerTrigger>Delete</DrawerTrigger>
                                     <DrawerContent>
