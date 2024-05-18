@@ -18,7 +18,7 @@ const hotelSchema = new mongoose.Schema(
       required: true,
     },
     tags: {
-      type: [String],
+      type: String,
       enum: [
         "Full-Service Hotels",
         "Boutique Hotels",
@@ -30,7 +30,7 @@ const hotelSchema = new mongoose.Schema(
         "Eco-Friendly Hotels",
       ],
       required: true,
-    }, //array of strings
+    },
     price: {
       type: Number,
       required: true,

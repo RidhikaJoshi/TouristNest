@@ -169,11 +169,11 @@ return (
                     <h1 className="md:text-4xl text-3xl font-bold mt-4">{name}</h1>
                     <p className="text-slate-900">{description}</p>
                     <div className='flex flex-row gap-3 '>
-                    {tags && tags.map((tag,index)=>(
-                        <button key={index} className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white font-semibold py-1 px-3 rounded-full shadow-md hover:from-purple-500 hover:via-pink-600 hover:to-red-600 transform hover:scale-105 transition duration-300 ease-in-out">
-  {tag}
+                 
+                        <button  className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white font-semibold py-1 px-3 rounded-full shadow-md hover:from-purple-500 hover:via-pink-600 hover:to-red-600 transform hover:scale-105 transition duration-300 ease-in-out">
+  {tags}
 </button>
-                    ))}</div>
+                </div>
                     <p className="text-slate-900 font-semibold">Price: {price}</p>
                     <p className="text-slate-900 font-semibold" >Location:{location}</p>
                     <p className="text-slate-900 font-semibold">State:{state}</p>
