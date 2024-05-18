@@ -54,7 +54,7 @@ function HomePage() {
           </CardContent>
           <CardFooter className="flex justify-between">
             <Link  to={authStatus?`/hotels/${hotel._id}`:`/login`}><Button >View Details</Button></Link>
-            <Button >Book Now</Button>
+            <Link to={authStatus?`/bookings/${hotel._id}`:`/login`}><Button >Book Now</Button></Link>
           </CardFooter>
         </Card>
       ))
