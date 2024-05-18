@@ -10,9 +10,12 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import config from "../config/config.js"; 
+import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 function HomePage() {
     const [hotels, setHotels] = useState([]);
+    const navigate = useNavigate();
 
   useEffect(() => {
     const fetchHotels = async () => {
@@ -33,6 +36,7 @@ function HomePage() {
     
     <div className='w-full min-h-96 flex flex-wrap items-center justify-evenly gap-4 mt-4 mb-4'>
       { hotels && hotels.map((hotel) => (
+          console.log("hotel:",hotel._id),
         <Card className="w-[350px]" key={hotel._id}>
           <CardHeader>
             <CardTitle>{hotel.name}</CardTitle>
@@ -41,13 +45,13 @@ function HomePage() {
           <CardContent>
             <div className="grid w-full items-center gap-4">
               <div>
-                <img src={hotel.picture} alt={hotel.name} className="w-full h-52 object-cover" />
+                <img src={hotel.picture} alt={hotel.name} className="w-full h-52" />
               </div>
             </div>
             
           </CardContent>
           <CardFooter className="flex justify-between">
-            <Button>View Details</Button>
+            <Link  to={`/hotels/${hotel._id}`}><Button >View Details</Button></Link>
             <Button >Book Now</Button>
           </CardFooter>
         </Card>
