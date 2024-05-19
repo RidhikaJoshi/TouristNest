@@ -5,7 +5,7 @@ import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHe
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { current } from '@reduxjs/toolkit';
+import config from "../config/config.js"; 
 import config from "../config/config.js"; 
 
 function MyprofilePage() {
@@ -71,7 +71,7 @@ function MyprofilePage() {
             const formData = new FormData();
             formData.append('profilePicture', profilePictureUpdated);
             const response = await axios.patch(
-                "http://localhost:4000/api/v1/users/changeProfilePicture",
+                `${config.BASE_URL}/api/v1/users/changeProfilePicture`,
                 formData,
                 {
                     headers: {
