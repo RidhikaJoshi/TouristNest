@@ -15,7 +15,7 @@ function App() {
       if (userLoggedIn === 'true') {
           dispatch(login({ userData: JSON.parse(localStorage.getItem('userData')) }));
         } else {
-          console.error('Error during login:');
+          console.error('Error due to not logged in :');
           dispatch(logout());
         }
       };

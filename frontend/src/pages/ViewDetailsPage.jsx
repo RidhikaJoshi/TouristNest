@@ -28,6 +28,7 @@ import { Input } from "@/components/ui/input"
 import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
 import { Link } from 'react-router-dom'
+import { Sparkles } from 'lucide-react'
 
 
 function ViewDetailsPage() {
@@ -51,8 +52,11 @@ function ViewDetailsPage() {
     const [picture, setPicture] = React.useState("");
     const [pictureUpdated, setPictureUpdated] = React.useState("");
     const [saving, setSaving] = React.useState("Save Changes");
-     const { toast } = useToast();
-     const [OwnerName, setOwnerName] = React.useState("");
+    const { toast } = useToast();
+    const [OwnerName, setOwnerName] = React.useState("");
+    const [comment, setComment] = React.useState("");
+    const [rating, setRating] = React.useState("5 star");
+    const [reviews, setReviews] = React.useState([]);
 
 
 
@@ -77,8 +81,12 @@ function ViewDetailsPage() {
 
 
                 const rese= await axios.get(`${config.BASE_URL}/api/v1/users/${response.data.data.owner}`);
-                //console.log("owner:", rese.data.data.fullName);
+                console.log("owner:", rese.data.data.fullName);
                 setOwnerName(rese.data.data.fullName);
+
+                const reviewres=await axios.get(`${config.BASE_URL}/api/v1/reviews/${hotelId}`);
+                console.log("reviewres:", reviewres.data.data);
+                setReviews(reviewres.data.data);
 
             } catch (error) {
                 console.error('Error fetching hotel:', error);
@@ -194,6 +202,43 @@ function ViewDetailsPage() {
         })
         }
     };
+
+
+    const handleAddReview = async (e) => {
+        e.preventDefault();
+        console.log("comment:", comment);
+        console.log("rating:", rating);
+        try {
+            const response = await axios.post(`${config.BASE_URL}/api/v1/reviews/${hotelId}`,
+                {
+                    content: comment,
+                    rating: rating
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${currentUserId?.accessToken}`,
+                    },
+                }
+            );
+            console.log("hotel:", response.data.data);
+            setHotel(response.data.data);
+            setComment("");
+            setRating("");
+            toast({
+          description: "Your Review has been added.",
+        })
+            navigate(`/hotels/${hotelId}`);
+        } catch (error) {
+            console.error('Error fetching hotel:', error);
+            toast({
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
+        setComment("");
+        setRating("");
+        }
+    }
 
 
 return (
@@ -333,9 +378,44 @@ return (
 
                             </div>
                         ) : (
-                            <Link to={`/bookings/${hotel._id}`}><Button >Book Now</Button></Link>
+                            <Button ><Link to={`/bookings/${hotel._id}`}>Book Now</Link></Button>
                         )
                     }
+
+                    {/* // review section */}
+                    <form>
+                        <h3 className='text-xl font-semibold mt-3 mb-3'>Add Reviews</h3>
+                        <div className="grid w-[50%] items-center gap-5">
+                            <div className="flex flex-col space-y-1.5">
+                            <Label >Comments</Label>
+                            <Input id="name" placeholder="Enter your Comment"  value={comment} onChange={(e)=>setComment(e.target.value)}required />
+                            </div>
+                            <div className="flex flex-col space-y-1.5">
+                            <Label >Ratings</Label>
+                            <select name="status" className='h-10 italic outline-none p-2' value={rating} 
+                                onChange={(e)=>setRating(e.target.value)} required>
+                                    <option value="5 star">5 star</option>
+                                    <option value="4 star">4 star</option>
+                                    <option value="3 star">3 star</option>
+                                    <option value="2 star">2 star</option>
+                                    <option value="1 star">1 star</option>
+                                </select>
+                            </div>
+                            
+                        </div>
+                        <Button onClick={handleAddReview}>Add Reviews</Button>
+                    </form>
+
+                    <h3 className='text-xl font-semibold mt-3 mb-3'>Reviews</h3>
+                    <div className='flex flex-col gap-3'>
+                        {reviews && reviews.length>0?   reviews.map((review) => (
+                            <div className='flex flex-row gap-4'>
+                                <p className='text-sm'><Sparkles /></p>
+                                <p className='md:text-lg text-sm'>Content: {review.content}</p>
+                                <p className='md:text-lg text-sm'>Rating: {review.rating}</p>
+                            </div>
+                        )): <p>No Reviews Yet</p>}
+                    </div>
                      
                 </>
             ) : (

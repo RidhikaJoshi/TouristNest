@@ -29,7 +29,7 @@ function SignUpPage() {
     const navigate = useNavigate();
      const { toast } = useToast()
 
-       const signUpHandler = async (e) => {
+const signUpHandler = async (e) => {
     e.preventDefault();
     setSignUpText('Signing Up...');
 
@@ -56,8 +56,6 @@ function SignUpPage() {
         },
       });
       console.log("signup response",response.data);
-      localStorage.setItem('userLoggedIn', 'true');
-      localStorage.setItem('userData', JSON.stringify(response.data.data));
       toast({
           description: "You have successfully Signed Up.Kindly Login.",
         })

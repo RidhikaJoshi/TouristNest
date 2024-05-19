@@ -53,7 +53,7 @@ function BookingHistory() {
   return (
     <div className='w-full flex flex-wrap min-h-screen items-center justify-center'>
         <div className='md:w-[90%] w-full min-h-96 flex flex-wrap gap-5 justify-center items-center mt-7 mb-7'>
-          {bookings && bookings.map((booking) => (
+          {bookings && bookings.length>0 ?bookings.map((booking) => (
             <Card key={booking._id} className='h-80 w-80 border-black border-2 flex flex-col items-center justify-center'>
               <CardHeader>
                 <CardTitle className='md:text-lg text-sm'>{booking.hotelName}</CardTitle>
@@ -77,7 +77,7 @@ function BookingHistory() {
                 </Button>
               </CardFooter>
             </Card>
-          ))}
+          )): <p>No bookings found</p>}
 
         </div>
        
