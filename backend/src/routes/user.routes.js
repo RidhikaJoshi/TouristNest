@@ -11,6 +11,7 @@ import {
   refreshAccessToken,
   getUserProfile,
   getCurrentlyLoggedInUser,
+  getUserById,
 } from "../controllers/user.controller.js"; // this method is used to import the register function from the user.controller.js file
 
 const router = Router(); // this method is used to create a new router object
@@ -24,6 +25,8 @@ router.route("/logout").post(verifyJWT, logout);
 router
   .route("/changeFullnamePhoneNumber")
   .patch(verifyJWT, changeFullnamePhoneNumber);
+
+router.route("/:userId").get(getUserById);
 
 router.route("/changeCurrentPassword").patch(verifyJWT, changeCurrentPassword);
 router

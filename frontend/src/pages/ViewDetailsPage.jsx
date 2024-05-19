@@ -51,7 +51,8 @@ function ViewDetailsPage() {
     const [picture, setPicture] = React.useState("");
     const [pictureUpdated, setPictureUpdated] = React.useState("");
     const [saving, setSaving] = React.useState("Save Changes");
-     const { toast } = useToast()
+     const { toast } = useToast();
+     const [OwnerName, setOwnerName] = React.useState("");
 
 
 
@@ -73,6 +74,11 @@ function ViewDetailsPage() {
                 setCountry(response.data.data.country);
                 setState(response.data.data.state);
                 setPicture(response.data.data.picture);
+
+
+                const rese= await axios.get(`${config.BASE_URL}/api/v1/users/${response.data.data.owner}`);
+                //console.log("owner:", rese.data.data.fullName);
+                setOwnerName(rese.data.data.fullName);
 
             } catch (error) {
                 console.error('Error fetching hotel:', error);
@@ -204,10 +210,11 @@ return (
   {tags}
 </button>
                 </div>
-                    <p className="text-slate-900 font-semibold">Price: {price}</p>
-                    <p className="text-slate-900 font-semibold" >Location:{location}</p>
-                    <p className="text-slate-900 font-semibold">State:{state}</p>
-                    <p className="text-slate-900 font-semibold">Country:{country}</p>
+                    <p className="text-slate-900 font-semibold">Owner of the Hotel:  {OwnerName}</p>
+                    <p className="text-slate-900 font-semibold">Price per Night:  {price}</p>
+                    <p className="text-slate-900 font-semibold" >Location: {location}</p>
+                    <p className="text-slate-900 font-semibold">State: {state}</p>
+                    <p className="text-slate-900 font-semibold">Country: {country}</p>
                     {
                         owner === currentUserId.user._id ? (
                             <div className='flex flex-row flex-wrap gap-10'>
