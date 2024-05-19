@@ -30,7 +30,7 @@ function Bookings() {
     const [checkOut, setCheckOut] = useState(null);
     const [numberOfRooms, setNumberOfRooms] = useState(1); // Initialize with 1 room
     const navigate = useNavigate();
-     const { toast } = useToast()
+     const { toast } = useToast();
 
   const handleChange = (event) => {
     // Ensure the number of rooms doesn't go below 1
@@ -56,6 +56,13 @@ function Bookings() {
       console.log("Booking:", checkIn);
       console.log("Booking checkout:", checkOut);
       console.log("Booking rooms:", numberOfRooms);
+        if (!checkIn || !checkOut) {
+    toast({
+      title: "Please select check-in and check-out dates.",
+      status: "error",
+    });
+    return;
+  }
       try{
         const response = await axios.post(`${config.BASE_URL}/api/v1/bookings/${hotelId}`, {
           checkinDate: checkIn,
@@ -69,12 +76,12 @@ function Bookings() {
        });
         console.log("Booking response:", response);
        toast({
-          description: "Your Booking has been done.",
+          description: "Make Payment to book your desired Hotel.",
         })
         setCheckIn(null);
         setCheckOut(null);
         setNumberOfRooms(1);
-        navigate('/');
+        navigate(`/bookings/${hotelId}/payment`);
         
 
       }catch(error)
@@ -165,6 +172,7 @@ function Bookings() {
             </div>
             <Button onClick={handleBooking} className="w-[50%]">Make Payment</Button>
              </div>
+            
 
         </div>
 
