@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select"
 import axios from 'axios'
 import config from "../config/config.js";
+import { set } from 'date-fns'
 
 function AddHotelsPage() {
 
@@ -31,9 +32,10 @@ function AddHotelsPage() {
     const [country, setCountry] = React.useState("");
     const [state, setState] = React.useState("");
     const [picture, setPicture] = React.useState("");
-   const [tags, setTags] = useState("Full-Service Hotels");
+    const [tags, setTags] = useState("5 star");
     const [AccessToken,setAccessToken]=useState("");
     const [deploy, setDeploy] = React.useState("Deploy");
+    const navigate = useNavigate();
 
  
   useEffect(() => {
@@ -63,15 +65,15 @@ useEffect(() => {
     
     formData.append("picture", picture);
     
-    console.log("name", name);
-    console.log("description", description);
-    console.log("location", location);
-    console.log("price", price);
-    console.log("owner", owner);
-    console.log("country", country);
-    console.log("state", state);
-    console.log("tags", tags);
-    console.log("picture", picture);
+    // console.log("name", name);
+    // console.log("description", description);
+    // console.log("location", location);
+    // console.log("price", price);
+    // console.log("owner", owner);
+    // console.log("country", country);
+    // console.log("state", state);
+    // console.log("tags", tags);
+    // console.log("picture", picture);
 
     try {
         const response = await axios.post(
@@ -86,7 +88,7 @@ useEffect(() => {
         );
         console.log("response", response);
         if (response.status === 200) {
-            setDeploy("Deployed");
+            setDeploy("Deploy");
             setName("");
             setDescription("");
             setLocation("");
@@ -95,12 +97,18 @@ useEffect(() => {
             setState("");
             setPicture("");
             setTags(""); // Reset tags to empty string
-            navigate("/hotels");
+            navigate("/");
         }
     } catch (error) {
-        console.log("error", error);
+        console.log("error occurred in adding hotels in the database", error);
+        setDeploy("Deploy");
     }
 };
+
+  const handleCancel=()=>{
+    navigate("/");
+  }
+
 
   return (
     <div className='min-h-screen w-full bg-slate-400 flex justify-center items-center'>
@@ -137,24 +145,16 @@ useEffect(() => {
               <Label htmlFor="name">Country</Label>
               <Input id="name" placeholder="Enter Country of your Hotel" value={country} onChange={(e)=>setCountry(e.target.value)}/>
             </div>
-            {/* <div className="flex flex-col space-y-2">
-              <Label htmlFor="framework">Tags</Label>
-               <Select onChange={handleSelect} >
-                <SelectTrigger id="framework">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent position="popper" >
-                   <SelectItem value="Full-Service Hotels" selected>Full-Service Hotels</SelectItem>
-                    <SelectItem value="Boutique Hotels">Boutique Hotels</SelectItem>
-                    <SelectItem value="Budget-Friendly Hotels">Budget-Friendly Hotels</SelectItem>
-                    <SelectItem value="Luxury Hotels">Luxury Hotels</SelectItem>
-                    <SelectItem value="Resort Hotels">Resort Hotels</SelectItem>
-                    <SelectItem value="Business Hotels">Business Hotels</SelectItem>
-                    <SelectItem value="Extended-Stay Hotels">Extended-Stay Hotels</SelectItem>
-                    <SelectItem value="Eco-Friendly Hotels">Eco-Friendly Hotels</SelectItem>
-                </SelectContent>
-              </Select>
-            </div> */}
+            <div className="flex flex-col space-y-2">
+              <Label htmlFor="name">Tags</Label>
+              <select name="status" className='h-10 italic outline-none p-2' value={tags} 
+              onChange={(e)=>setTags(e.target.value)} required>
+                <option value="5 star">5 star</option>
+                <option value="4 star">4 star</option>
+                <option value="3 star">3 star</option>
+                <option value="2 star">2 star</option>
+                <option value="1 star">1 star</option>
+              </select></div>
               
   
             <div className="flex flex-col space-y-2">
@@ -165,7 +165,7 @@ useEffect(() => {
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button variant="outline" >Cancel</Button>
+        <Button variant="outline" onClick={handleCancel}>Cancel</Button>
         <Button onClick={handleAddHotel}>{deploy}</Button>
       </CardFooter>
     </Card>

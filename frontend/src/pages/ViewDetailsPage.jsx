@@ -243,14 +243,16 @@ return (
                                                 onChange={(e) => setDescriptionUpdated(e.target.value)}
                                             />
                                         </div>
-                                        <div className="flex flex-col gap-2">
-                                            <Label htmlFor="tags">Tags</Label>
-                                            <Input
-                                                type="text"
-                                                id="tags"
-                                                value={tagsUpdated}
-                                                onChange={(e) => setTagsUpdated(e.target.value)}
-                                            /></div>
+                                        <div className="flex flex-col space-y-2">
+                                            <Label htmlFor="name">Tags</Label>
+                                            <select name="status" className='h-10 italic outline-none p-2' value={tagsUpdated} 
+                                            onChange={(e)=>setTagsUpdated(e.target.value)} required>
+                                                <option value="5 star">5 star</option>
+                                                <option value="4 star">4 star</option>
+                                                <option value="3 star">3 star</option>
+                                                <option value="2 star">2 star</option>
+                                                <option value="1 star">1 star</option>
+                                            </select></div>
                                         <div className="flex flex-col gap-2">
                                             <Label htmlFor="price">Price</Label>
                                             <Input
