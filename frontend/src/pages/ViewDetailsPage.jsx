@@ -27,7 +27,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
-import { set } from 'date-fns';
+import { Link } from 'react-router-dom'
 
 
 function ViewDetailsPage() {
@@ -333,7 +333,7 @@ return (
 
                             </div>
                         ) : (
-                            <Button>Book Now</Button>
+                            <Link to={`/bookings/${hotel._id}`}><Button >Book Now</Button></Link>
                         )
                     }
                      
