@@ -163,7 +163,7 @@ function Bookings() {
         onChange={handleChange}
       />
             </div>
-            <Button onClick={handleBooking} className="w-[50%]">Book</Button>
+            <Button onClick={handleBooking} className="w-[50%]">Make Payment</Button>
              </div>
 
         </div>

@@ -51,52 +51,41 @@ useEffect(() => {
     const handleAddHotel = async (e) => {
     e.preventDefault();
     setDeploy("Deploying...");
-    //     const formData = new FormData();
-    // formData.append("name", name);
-    // formData.append("description", description);
-    // formData.append("location", location);
-    // formData.append("price", price);
-    // formData.append("owner", owner);
-    // formData.append("country", country);
-    // formData.append("state", state);
-    //setTags(document.getElementById("framework").value);
-    //formData.append("tags", tags);
-
-    //formData.append("picture", picture);
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("location", location);
+    formData.append("price", price);
+    formData.append("owner", owner);
+    formData.append("country", country);
+    formData.append("state", state);
+    formData.append("tags", tags); // Assuming tags is a string
+    
+    formData.append("picture", picture);
+    
     console.log("name", name);
     console.log("description", description);
     console.log("location", location);
     console.log("price", price);
-        console.log("owner",owner);
-        console.log("country",country);
-        console.log("state",state);
-        console.log("tags",tags);
-        console.log("picture",picture);
+    console.log("owner", owner);
+    console.log("country", country);
+    console.log("state", state);
+    console.log("tags", tags);
+    console.log("picture", picture);
 
-      //console.log("formData",formData);
-        try{
-          const response=await axios.post(`${config.BASE_URL}/api/v1/hotels/addHotels`,{
-            name:name,
-            description:description,
-            location:location,
-            price:price,
-            owner:owner,
-            country:country,
-            state:state,
-            tags:tags,
-            picture:picture
-          
-          },
+    try {
+        const response = await axios.post(
+            `${config.BASE_URL}/api/v1/hotels/addHotels`,
+            formData,
             {
-              headers: {
-                "Content-Type": "multipart/form-data",
-                Authorization: `Bearer ${AccessToken}`,
-              },
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${AccessToken}`,
+                },
             }
-          );
-          console.log("response",response);
-          if(response.status===200)
-          {
+        );
+        console.log("response", response);
+        if (response.status === 200) {
             setDeploy("Deployed");
             setName("");
             setDescription("");
@@ -105,17 +94,13 @@ useEffect(() => {
             setCountry("");
             setState("");
             setPicture("");
-            setTags("");
-            navigate("/hotels")
-          }
-        }catch(error)
-        {
-          console.log("error",error.message);
+            setTags(""); // Reset tags to empty string
+            navigate("/hotels");
         }
+    } catch (error) {
+        console.log("error", error);
     }
-//     const handleSelect = (value) => {
-//   setTags(value);
-// };
+};
 
   return (
     <div className='min-h-screen w-full bg-slate-400 flex justify-center items-center'>
