@@ -48,7 +48,7 @@ const addHotels = asyncHandler(async (req, res) => {
   ) {
     throw new ApiError(400, "All fields are required");
   }
-  const pictureLocalPath = req.file.path;
+  const pictureLocalPath = req.file?.path;
   if (!pictureLocalPath) {
     throw new ApiError(400, "Picture is required");
   }
@@ -56,6 +56,15 @@ const addHotels = asyncHandler(async (req, res) => {
   if (!picture) {
     throw new ApiError(500, "Failed to upload picture on cloudinary");
   }
+  console.log("picture", picture);
+  console.log("name", name);
+  console.log("description", description);
+  console.log("tags", tags);
+  console.log("price", price);
+  console.log("country", country);
+  console.log("state", state);
+  console.log("location", location);
+
   const newHotel = await Hotel.create({
     picture: picture.url,
     name,
