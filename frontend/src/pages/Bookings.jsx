@@ -143,7 +143,7 @@ function Bookings() {
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {checkOut ? format(checkOut, "PPP") : <span>Pick a CheckIn date</span>}
+                    {checkOut ? format(checkOut, "PPP") : <span>Pick a CheckOut date</span>}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">

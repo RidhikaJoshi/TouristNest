@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import config from "../config/config.js"; 
-import config from "../config/config.js"; 
 
 function MyprofilePage() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('userData')) || {});

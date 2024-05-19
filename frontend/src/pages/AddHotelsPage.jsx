@@ -11,16 +11,10 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import axios from 'axios'
 import config from "../config/config.js";
-import { set } from 'date-fns'
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
 
 function AddHotelsPage() {
 
@@ -36,6 +30,7 @@ function AddHotelsPage() {
     const [AccessToken,setAccessToken]=useState("");
     const [deploy, setDeploy] = React.useState("Deploy");
     const navigate = useNavigate();
+     const { toast } = useToast();
 
  
   useEffect(() => {
@@ -53,6 +48,13 @@ useEffect(() => {
     const handleAddHotel = async (e) => {
     e.preventDefault();
     setDeploy("Deploying...");
+    if (!name || !description || !location || !price || !owner || !country || !state || !tags || !picture) {
+       toast({
+          title: "Uh oh! Something went wrong.",
+          description: "Please fill all the fields.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
+      return ;};
     const formData = new FormData();
     formData.append("name", name);
     formData.append("description", description);
@@ -64,16 +66,6 @@ useEffect(() => {
     formData.append("tags", tags); // Assuming tags is a string
     
     formData.append("picture", picture);
-    
-    // console.log("name", name);
-    // console.log("description", description);
-    // console.log("location", location);
-    // console.log("price", price);
-    // console.log("owner", owner);
-    // console.log("country", country);
-    // console.log("state", state);
-    // console.log("tags", tags);
-    // console.log("picture", picture);
 
     try {
         const response = await axios.post(
@@ -97,10 +89,18 @@ useEffect(() => {
             setState("");
             setPicture("");
             setTags(""); // Reset tags to empty string
+            toast({
+          description: "Hotel added successfully.",
+        })
             navigate("/");
         }
     } catch (error) {
         console.log("error occurred in adding hotels in the database", error);
+        toast({
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
         setDeploy("Deploy");
     }
 };

@@ -25,14 +25,16 @@ function LoginPage() {
     const [Login, setLogin] = useState('Login');
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { toast } = useToast()
+    const { toast } = useToast();
 
     const loginHandler = async(e) => {
          e.preventDefault();
          setLogin('Logging in...');
         if(!email || !password) {
             toast({
-          description: "Please fill All the Fields .",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
         })
             setEmail('');
             setPassword('');

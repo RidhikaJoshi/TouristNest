@@ -26,7 +26,6 @@ function SignUpPage() {
     const [profilePicture, setProfilePicture] = useState(null);
     const [password, setPassword] = useState('');
    const [signUpText, setSignUpText] = useState('Create Account');
-    const dispatch = useDispatch();
     const navigate = useNavigate();
      const { toast } = useToast()
 
@@ -57,11 +56,10 @@ function SignUpPage() {
         },
       });
       console.log("signup response",response.data);
-      // dispatch(login({ userData: response.data }));
       localStorage.setItem('userLoggedIn', 'true');
       localStorage.setItem('userData', JSON.stringify(response.data.data));
       toast({
-          description: "You have successfully Signed Up.Kindly Login .",
+          description: "You have successfully Signed Up.Kindly Login.",
         })
       navigate('/login');
     } catch (error) {

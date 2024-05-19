@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { logout } from '@/store/authSlice'
 import { GiHamburgerMenu } from "react-icons/gi";
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
 
 function Header() {
     const authStatus=useSelector((state)=>state.auth.status);
@@ -21,12 +23,16 @@ function Header() {
     const dispatch=useDispatch();
     
     const [position, setPosition] = React.useState("bottom");
+     const { toast } = useToast();
 
 
     function logoutHandler(){
       dispatch(logout());
       localStorage.setItem('userLoggedIn', 'false');
       localStorage.setItem('userData', JSON.stringify({}));
+      toast({
+          description: "You are LoggedOut .",
+        })
       navigate('/login');
     }
 
