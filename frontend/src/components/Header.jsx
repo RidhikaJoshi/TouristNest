@@ -42,6 +42,12 @@ function Header() {
         active:authStatus
       },
       {
+        name:"Bookings",
+        slug:'/bookingsHistory',
+        active:authStatus
+
+      },
+      {
         name:"My Profile",
         slug:'/profile',
         active:authStatus
