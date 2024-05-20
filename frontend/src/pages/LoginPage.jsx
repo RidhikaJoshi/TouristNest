@@ -98,9 +98,8 @@ function LoginPage() {
       setEmail(testEmail);
       setPassword(testPassword);
       setLogin('Logging in...');
-      console.log("email",email,"password",password)
      try{
-            const response=await axios.post(`${config.BASE_URL}/api/v1/users/login`,{email:email,password:password});
+            const response=await axios.post(`${config.BASE_URL}/api/v1/users/login`,{email:testEmail,password:testPassword});
             console.log("login response",response.data.data);
              dispatch(login({ userData: response.data.data }));
              localStorage.setItem('userLoggedIn', 'true');
