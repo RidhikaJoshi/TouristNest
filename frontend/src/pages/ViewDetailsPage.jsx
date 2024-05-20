@@ -224,10 +224,11 @@ function ViewDetailsPage() {
             setHotel(response.data.data);
             setComment("");
             setRating("");
+             navigate(`/hotels/${hotelId}`);
             toast({
           description: "Your Review has been added.",
         })
-            navigate(`/hotels/${hotelId}`);
+           
         } catch (error) {
             console.error('Error fetching hotel:', error);
             toast({
@@ -239,6 +240,11 @@ function ViewDetailsPage() {
         setRating("");
         }
     }
+
+    useEffect(() => {
+        setReviews(reviews);
+    }
+    ,[reviews]);
 
 
 return (
@@ -409,11 +415,15 @@ return (
                     <h3 className='text-xl font-semibold mt-3 mb-3'>Reviews</h3>
                     <div className='flex flex-col gap-3'>
                         {reviews && reviews.length>0?   reviews.map((review) => (
-                            <div className='flex flex-row gap-4'>
-                                <p className='text-sm'><Sparkles /></p>
-                                <p className='md:text-lg text-sm'>Content: {review.content}</p>
-                                <p className='md:text-lg text-sm'>Rating: {review.rating}</p>
-                            </div>
+                            <div className='flex flex-col gap-2' key={review._id}>
+                                <div className='flex flex-row gap-4 items-center'>
+                                 <p className='text-sm'><Sparkles /></p>
+                                 <p className='text-lg font-semibold'>{review.username}</p>
+                                </div>
+                            <div className='flex flex-row gap-4 ml-8 text-slate-700'>
+                                <p className=' text-md'>Content: {review.content}</p>
+                                <p className=' text-md'>Rating: {review.rating}</p>
+                            </div></div>
                         )): <p>No Reviews Yet</p>}
                     </div>
                      
