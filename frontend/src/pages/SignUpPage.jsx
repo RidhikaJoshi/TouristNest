@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import config from "../config/config.js";
+import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
 
 function SignUpPage() {
@@ -40,6 +41,38 @@ const signUpHandler = async (e) => {
       setSignUpText('Create Account');
       return;
     }
+    if(username !== username.toLowerCase())
+        {
+          toast({
+            title: "Username should contain only lowercase character.",
+             description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+          })
+          setSignUpText('Create Account');
+          return;
+        }
+    if(email.includes('@')===false || email.includes('.')===false)
+      {
+        toast({
+          title: "Please enter a valid email address.",
+           description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        })
+        setSignUpText('Create Account');
+        return;
+      }
+      if(password.length<8)
+        {
+          toast({
+            title: "Password should be atleast 8 characters long.",
+             description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+          })
+          setSignUpText('Create Account');
+          return;
+        }
+      
+
 
     const formData = new FormData();
     formData.append('username', username);
@@ -62,6 +95,11 @@ const signUpHandler = async (e) => {
       navigate('/login');
     } catch (error) {
       console.log(error);
+      toast({
+            title: error.response.data.message,
+             description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+          })
       setSignUpText('Create Account');
     }
   };

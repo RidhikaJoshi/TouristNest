@@ -41,6 +41,30 @@ function LoginPage() {
             setLogin('Login');
             return;
         }
+        if(email.includes('@')===false || email.includes('.')===false)
+          {
+            toast({
+          title: "Incorrect email format",
+          description: "Please enter a valid email address.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+          })
+          setEmail('');
+          setPassword('');
+          setLogin('Login');
+          return;
+        };
+        if(password.length<8)
+          {
+            toast({
+          title: "Password too short",
+          description: "Password should be atleast 8 characters long.",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+          })
+          setEmail('');
+          setPassword('');
+          setLogin('Login');
+          return;
+          }
         try{
             const response=await axios.post(`${config.BASE_URL}/api/v1/users/login`,{email,password});
             console.log("login response",response.data.data);
@@ -55,7 +79,7 @@ function LoginPage() {
         {
           console.error('Error during login:', error);
           toast({
-          title: "Uh oh! Something went wrong.",
+          title: "Enter correct email and password.",
           description: "There was a problem with your request.",
           action: <ToastAction altText="Try again">Try again</ToastAction>,
         })
@@ -79,7 +103,7 @@ function LoginPage() {
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label >Email</Label>
-              <Input id="name" placeholder="Enter your Username" value={email} onChange={(e)=>setEmail(e.target.value)} required />
+              <Input id="name" placeholder="Enter your Email" value={email} onChange={(e)=>setEmail(e.target.value)} required />
             </div>
              <div className="flex flex-col space-y-1.5">
               <Label >Password</Label>
