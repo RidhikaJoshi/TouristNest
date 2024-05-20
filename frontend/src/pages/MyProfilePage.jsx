@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import config from "../config/config.js"; 
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
 
 function MyprofilePage() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('userData')) || {});
@@ -19,6 +21,7 @@ function MyprofilePage() {
     const [profilePicture, setProfilePicture] = useState('');
     const [currentPassword,setCurrentPassword] = useState('');
     const [newPassword,setNewPassword] = useState('');
+     const { toast } = useToast();
 
 
     useEffect(() => {
@@ -61,7 +64,14 @@ function MyprofilePage() {
             setUser(updatedUser);
         }
     } catch (error) {
-        console.error(error);
+        console.error(error.response.data.message);
+         toast({
+          title: error.response.data.message,
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">This can't be done.</ToastAction>,
+        });
+        setFullNameUpdated('');
+        setPhoneUpdated('');
     }
 };
     const EditPictureHandler = async (e) => {
@@ -91,7 +101,13 @@ function MyprofilePage() {
                 alert('Profile picture updated successfully');
             }
         } catch (error) {
-            console.error(error);
+            console.error(error.response.data.message);
+            toast({
+          title: error.response.data.message,
+          description: "There was a problem with your request.",
+          action: <ToastAction altText="Try again">This can't be done.</ToastAction>,
+        });
+        setProfilePictureUpdated('');
         }
     };
 
@@ -99,7 +115,7 @@ function MyprofilePage() {
         e.preventDefault(); // Prevent default form submission
         try {
             const response = await axios.patch(
-                "http://localhost:4000/api/v1/users/changeCurrentPassword",
+                `${config.BASE_URL}/api/v1/users/changeCurrentPassword`,
                 { currentPassword: currentPassword, newPassword: newPassword },
                 {
                     headers: {
@@ -115,7 +131,14 @@ function MyprofilePage() {
                 alert('Password changed successfully');
             }
         } catch (error) {
-            console.error(error);
+            console.error(error.response.data.message);
+            toast({
+            title: error.response.data.message,
+            description: "There was a problem with your request.",
+            action: <ToastAction altText="Try again">This can't be done.</ToastAction>,
+        });
+        setCurrentPassword('');
+        setNewPassword('');
         }
     }
 
