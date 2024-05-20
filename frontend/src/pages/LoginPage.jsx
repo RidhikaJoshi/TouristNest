@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { login } from '../store/authSlice.js'
 import { Button } from "@/components/ui/button"
 import axios from 'axios'
@@ -117,7 +117,7 @@ function LoginPage() {
 
 
   return (
-   <div className='w-full min-h-96 flex items-center justify-center'>
+   <div className='w-full min-h-screen flex items-center justify-center'>
     <Card className="w-[350px]">
       <CardHeader>
         <CardTitle>Login to your Account</CardTitle>
@@ -134,6 +134,7 @@ function LoginPage() {
               <Label >Password</Label>
               <Input id="name" type="password" placeholder="Enter your password" value={password} onChange={(e)=>setPassword(e.target.value)} required />
             </div>
+            <div className="flex flex-row space-y-1.5 text-sm">Don't Have an Account? &nbsp;<Link to='/register'><span className='text-green-700 font-semibold'>SignUp</span></Link></div>
             
           </div>
         </form>
