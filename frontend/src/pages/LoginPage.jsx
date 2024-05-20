@@ -30,6 +30,7 @@ function LoginPage() {
     const loginHandler = async(e) => {
          e.preventDefault();
          setLogin('Logging in...');
+         //console.log("email",email,"password",password)
         if(!email || !password) {
             toast({
           title: "Uh oh! Something went wrong.",
@@ -90,6 +91,30 @@ function LoginPage() {
         
     }
 
+    const testLoginHandler=async()=>{
+      
+      const testEmail="test@gmail.com";
+      const testPassword="12345678";
+      setEmail(testEmail);
+      setPassword(testPassword);
+      setLogin('Logging in...');
+      console.log("email",email,"password",password)
+     try{
+            const response=await axios.post(`${config.BASE_URL}/api/v1/users/login`,{email:email,password:password});
+            console.log("login response",response.data.data);
+             dispatch(login({ userData: response.data.data }));
+             localStorage.setItem('userLoggedIn', 'true');
+             localStorage.setItem('userData', JSON.stringify(response.data.data));
+              toast({
+          description: "You are LoggedIn .",
+        })
+            navigate('/');
+        }catch(error)
+      {
+        console.log("error occurred while logging in test user",error);
+      }
+    }
+
 
   return (
    <div className='w-full min-h-96 flex items-center justify-center'>
@@ -114,7 +139,7 @@ function LoginPage() {
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button>Test User</Button>
+        <Button onClick={testLoginHandler}>Test User</Button>
         <Button onClick={loginHandler}>{Login}</Button>
       </CardFooter> 
     </Card>
