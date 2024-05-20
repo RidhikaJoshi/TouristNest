@@ -24,7 +24,7 @@ function BookingHistory() {
     //console.log(AccessToken);
     //console.log(userId);
 
-
+    const [bookingId, setBookingId] = React.useState(''); 
     const [bookings, setBookings] = React.useState([]);
 
     useEffect(() => {
@@ -54,7 +54,9 @@ function BookingHistory() {
     <div className='w-full flex flex-wrap min-h-screen items-center justify-center'>
         <div className='md:w-[90%] w-full min-h-96 flex flex-wrap gap-5 justify-center items-center mt-7 mb-7'>
           {bookings && bookings.length>0 ?bookings.map((booking) => (
-            <Card key={booking._id} className='h-80 w-80 border-black border-2 flex flex-col items-center justify-center'>
+           
+            <Card key={booking._id} className='h-70 w-70 border-black border-2 flex flex-col items-center justify-center'>
+
               <CardHeader>
                 <CardTitle className='md:text-lg text-sm'>{booking.hotelName}</CardTitle>
               </CardHeader>
@@ -71,10 +73,10 @@ function BookingHistory() {
                   <Check size={20} className='mr-2' />
                   Booked
                 </Button>
-                <Button  className='w-full bg-red-500'>
+                {/* <Button  className='w-full bg-red-500' onClick={deleteBookingHandle}>
                   <Cross size={20} className='mr-2' />
                   Cancel
-                </Button>
+                </Button> */}
               </CardFooter>
             </Card>
           )): <p>No bookings found</p>}
