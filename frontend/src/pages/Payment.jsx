@@ -12,7 +12,9 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import  {Check, Cross } from "lucide-react"
+import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import CheckoutForm from "../components/CheckoutForm";
 
 
 
@@ -60,7 +62,7 @@ function Payment() {
         <div className='md:w-[90%] w-full min-h-96 flex flex-wrap gap-5 justify-center items-center mt-7 mb-7 '>
           
           
-            <Card key={booking?._id} className='h-full md:w-[40%] w-[80%] border-slate-400 border-[0.5px] flex flex-col items-center justify-center'>
+            <Card key={booking?._id} className='h-full md:w-[40%] w-[80%] border-slate-400 border-[0.5px] flex flex-col items-center justify-center gap-2'>
 
               <CardHeader>
                 <CardTitle className='md:text-lg text-sm'>{booking?.hotelName}</CardTitle>
@@ -74,12 +76,19 @@ function Payment() {
                   <p>Total Amount: {booking?.totalAmount}</p>
                 </CardDescription>
               </CardContent>
-              <CardFooter className='flex flex-row gap-4'>
-                <Button color='primary' className='w-full'>
+              <div className='flex flex-col  w-[90%]'>
+                {/* <Button color='primary' className='w-full'>
                   <Check size={20} className='mr-2' />
                   Pay Now
-                </Button>
-              </CardFooter>
+                </Button> */}
+               
+                  <Elements stripe={stripePromise}>
+                    <CheckoutForm />
+                  </Elements>
+                
+                 
+              </div>
+              
             </Card>
          
 
