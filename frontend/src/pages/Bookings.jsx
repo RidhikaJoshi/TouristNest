@@ -74,14 +74,14 @@ function Bookings() {
                         Authorization: `Bearer ${currentUserId?.accessToken}`,
                     },
        });
-        console.log("Booking response:", response);
+        //console.log("Booking response:", response.data.message._id);
        toast({
           description: "Make Payment to book your desired Hotel.",
         })
         setCheckIn(null);
         setCheckOut(null);
         setNumberOfRooms(1);
-        navigate(`/bookings/${hotelId}/payment`);
+        navigate(`/bookings/${response.data.message._id}/payment`);
         
 
       }catch(error)
