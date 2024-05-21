@@ -1,8 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { login } from '../store/authSlice.js'
 import { Button } from "@/components/ui/button"
 import axios from 'axios'
 import {
@@ -18,6 +16,7 @@ import { Label } from "@/components/ui/label"
 import config from "../config/config.js";
 import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
+import { Link } from 'react-router-dom'
 
 function SignUpPage() {
     const [username, setUsername] = useState('');
@@ -176,6 +175,7 @@ const signUpHandler = async (e) => {
                   required
                 />
               </div>
+              <p className='flex flex-row items-center text-sm'>Already Have an account? &nbsp;<Link to='/login'> <span className='font-semibold text-green-700'>Login</span></Link></p>
             </div>
           </form>
         </CardContent>
