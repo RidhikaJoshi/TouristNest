@@ -31,25 +31,25 @@ function HomePage() {
     }
     fetchHotels();
 
-  }, [])
-
+  }, [ ])
 
   return (
-    
-    <div className='w-full min-h-96 flex flex-wrap items-center justify-evenly gap-4 mt-4 mb-4'>
+    <div className='w-full min-h-96 flex flex-wrap items-center justify-center p-2.5'>
+    <div className='md:w-full w-[90%] min-h-96 flex flex-wrap items-center justify-evenly gap-5 mt-4 mb-4'>
       { hotels && hotels.map((hotel) => (
           console.log("hotel:",hotel._id),
-        <Card className="w-[350px]" key={hotel._id}>
+        <Card className="w-[400px] border-[0.5px] border-[#16A34A]" key={hotel._id}>
           <CardHeader>
             <CardTitle>{hotel.name}</CardTitle>
-            <CardDescription>{hotel.description}</CardDescription>
+            
           </CardHeader>
-          <CardContent>
+          <CardContent className=" flex flex-col gap-4">
             <div className="grid w-full items-center gap-4">
               <div>
-                <img src={hotel.picture} alt={hotel.name} className="w-full h-52" />
+                <img src={hotel.picture} alt={hotel.name} className="w-full h-60" />
               </div>
             </div>
+            <CardDescription>{hotel.description}</CardDescription>
             
           </CardContent>
           <CardFooter className="flex justify-between">
@@ -61,6 +61,7 @@ function HomePage() {
       }
 
     </div>
+      </div> 
   )
 }
 
