@@ -261,7 +261,7 @@ return (
   {tags}
 </button>
                 </div>
-                    <p className="text-slate-900 font-semibold">Owner of the Hotel:  {OwnerName}</p>
+                    <p className="text-slate-900 font-semibold">Hotel Listed By:  {OwnerName}</p>
                     <p className="text-slate-900 font-semibold">Price per Night:  {price}</p>
                     <p className="text-slate-900 font-semibold" >Location: {location}</p>
                     <p className="text-slate-900 font-semibold">State: {state}</p>

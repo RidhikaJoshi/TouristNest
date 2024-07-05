@@ -111,39 +111,39 @@ useEffect(() => {
 
 
   return (
-    <div className='min-h-screen w-full bg-slate-400 flex justify-center items-center'>
+    <div className='min-h-screen w-full flex justify-center items-center'>
       <div className='w-[80%]  min-h-72 flex justify-center items-center mt-5 mb-5'>
        <Card className="w-[650px]">
       <CardHeader>
         <CardTitle>Create New Hotel Listing</CardTitle>
-        <CardDescription>Deploy your new Hotel Listing in one-click.</CardDescription>
+        <CardDescription>Deploy new Hotel Listing in one-click.</CardDescription>
       </CardHeader>
       <CardContent>
         <form>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-2">
               <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Name of your Hotel" value={name} onChange={(e)=>setName(e.target.value)} />
+              <Input id="name" placeholder="Name of Hotel" value={name} onChange={(e)=>setName(e.target.value)} />
             </div>
             <div className="flex flex-col space-y-2">
               <Label htmlFor="name">Description</Label>
-              <Input id="name" placeholder="Enter description of your Hotel"  value={description} onChange={(e)=>setDescription(e.target.value)}/>
+              <Input id="name" placeholder="Enter description of Hotel"  value={description} onChange={(e)=>setDescription(e.target.value)}/>
             </div>
             <div className="flex flex-col space-y-2">
               <Label htmlFor="name">Price/Night</Label>
-              <Input id="name" placeholder="Enter Price per night of your Hotel" value={price} onChange={(e)=>setPrice(e.target.value)}/>
+              <Input id="name" placeholder="Enter Price per night of Hotel" value={price} onChange={(e)=>setPrice(e.target.value)}/>
             </div>
             <div className="flex flex-col space-y-2">
               <Label htmlFor="name">Location</Label>
-              <Input id="name" placeholder="Enter Location of your Hotel" value={location} onChange={(e)=>setLocation(e.target.value)}/>
+              <Input id="name" placeholder="Enter Location of Hotel" value={location} onChange={(e)=>setLocation(e.target.value)}/>
             </div>
             <div className="flex flex-col space-y-2">
               <Label htmlFor="name">State</Label>
-              <Input id="name" placeholder="Enter State of your Hotel" value={state} onChange={(e)=>setState(e.target.value)}/>
+              <Input id="name" placeholder="Enter State of Hotel" value={state} onChange={(e)=>setState(e.target.value)}/>
             </div>
             <div className="flex flex-col space-y-2">
               <Label htmlFor="name">Country</Label>
-              <Input id="name" placeholder="Enter Country of your Hotel" value={country} onChange={(e)=>setCountry(e.target.value)}/>
+              <Input id="name" placeholder="Enter Country of Hotel" value={country} onChange={(e)=>setCountry(e.target.value)}/>
             </div>
             <div className="flex flex-col space-y-2">
               <Label htmlFor="name">Tags</Label>
