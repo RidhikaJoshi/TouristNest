@@ -36,13 +36,12 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
-import { set } from 'date-fns';
 
 function HomePage() {
     const [hotels, setHotels] = useState([]);
     const [page,setPage]=useState(1);
      const authStatus=useSelector((state)=>state.auth.status);
-     
+
      const Images1=[
         {
           id:1,
@@ -139,7 +138,7 @@ function HomePage() {
 
 
     {/* Introduction2 */}
-       <div className='md:w-full w-[90%] min-h-96  flex md:flex-row  flex-col flex-wrap items-center justify-center gap-4 mt-4'>
+       <div className='md:w-full w-[90%] min-h-96  flex md:flex-row  flex-col-reverse flex-wrap items-center justify-center gap-4 mt-4'>
        
         <div className='md:w-[45%] w-[80%] min-h-40  flex items-center justify-center'>
             <Carousel className="w-full max-w-sm" opts={{align: "start",loop: true,}}  plugins={[
@@ -227,9 +226,9 @@ function HomePage() {
           }
           }>3</PaginationLink>
         </PaginationItem>
-        {/* <PaginationItem>
+        <PaginationItem>
           <PaginationEllipsis />
-        </PaginationItem> */}
+        </PaginationItem>
         <PaginationItem>
           <PaginationNext onClick= {()=>setPage(page+1<=3?page+1:3)} />
         </PaginationItem>
