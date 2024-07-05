@@ -72,7 +72,7 @@ function Header() {
 
 
   return (
-    <div className='min-h-24 bg-slate-200 border-b-[0.1px] border-slate-500 text-white w-full flex flex-row justify-evenly items-center'>
+    <div className='min-h-24 bg-[#16A34A] border-b-[0.1px] border-slate-500 text-white w-full flex flex-row justify-evenly items-center'>
         
         <Link to={'/'}><h1 className='italics text-black font-serif font-semibold text-xl'>TouristNest</h1></Link>
         

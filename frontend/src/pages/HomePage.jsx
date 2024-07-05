@@ -19,11 +19,42 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
 
 function HomePage() {
     const [hotels, setHotels] = useState([]);
     const navigate = useNavigate();
      const authStatus=useSelector((state)=>state.auth.status);
+
+     const Images=[
+        {
+          id:1,
+          image:"https://images.pexels.com/photos/2265876/pexels-photo-2265876.jpeg?auto=compress&cs=tinysrgb&w=600"
+        },
+        {
+          id:2,
+          image:"https://images.pexels.com/photos/731217/pexels-photo-731217.jpeg?auto=compress&cs=tinysrgb&w=600"
+        },
+        {
+          id:3,
+          image:"https://images.pexels.com/photos/1271619/pexels-photo-1271619.jpeg?auto=compress&cs=tinysrgb&w=600"
+        },
+        {
+          id:4,
+          image:"https://images.pexels.com/photos/586687/pexels-photo-586687.jpeg?auto=compress&cs=tinysrgb&w=600"
+        },
+        {
+          id:5,
+          image:"https://images.pexels.com/photos/1010657/pexels-photo-1010657.jpeg?auto=compress&cs=tinysrgb&w=600"
+        }
+     ]
 
   useEffect(() => {
     const fetchHotels = async () => {
@@ -42,8 +73,43 @@ function HomePage() {
   return (
     <div className='w-full min-h-96 flex flex-wrap items-center justify-center p-2.5 gap-10'>
 
+      {/* Introduction */}
+      <div className='md:w-full w-[90%] min-h-96  flex md:flex-row  flex-col flex-wrap items-center justify-center gap-4 mt-4'>
+        <div className='md:w-[45%] w-full min-h-40 '>
+            <h2 className='text-2xl font-semibold text-[#16A34A]'>"Discover your perfect stay with us! Book your dream vacation at unbeatable prices. Explore top-rated hotels and enjoy seamless booking for an unforgettable experience."</h2>
+        </div>
+        <div className='md:w-[45%] w-[80%] min-h-40  flex items-center justify-center'>
+            <Carousel className="w-full max-w-sm" opts={{align: "start",loop: true,}}  plugins={[
+        Autoplay({
+          delay: 2000,
+        }),
+      ]}>
+              <CarouselContent>
+                {Images.map((image,id) => (
+                  <CarouselItem key={id}>
+                    <div >
+                      <Card>
+                        <CardContent className="flex aspect-square items-center justify-center p-6">
+                          <img src={image.image} alt="hotel" className="w-full h-full " />
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+          </Carousel>
+        </div>
+        
+      </div>
+
+
+
       {/* List of Hotels */}
-    <div className='md:w-full w-[90%] min-h-96 flex flex-wrap items-center justify-evenly gap-5 mt-4 mb-4'>
+    <div className='md:w-full w-[90%] min-h-96 flex flex-wrap flex-col items-center justify-center gap-5 mt-4 mb-4'>
+      <h1 className="text-3xl font-bold text-center">Hotels</h1>
+      <div className='w-full flex flex-row flex-wrap items-center justify-center gap-3'>
       { hotels && hotels.map((hotel) => (
           console.log("hotel:",hotel._id),
         <Card className="w-[400px] border-[0.5px] border-[#16A34A]" key={hotel._id}>
@@ -67,12 +133,13 @@ function HomePage() {
         </Card>
       ))
       }
+      </div>
 
     </div>
 
 
     {/* FAQs */}
-    <div className='br-red-200 md:w-[50%] w-[90%] min-h-32'>
+    <div className='br-red-200 md:w-[60%] w-[90%] min-h-32'>
       <h1 className="text-3xl font-bold text-center">FAQs</h1>
       <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="item-1">
