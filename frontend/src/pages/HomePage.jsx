@@ -71,12 +71,12 @@ function HomePage() {
   }, [ ])
 
   return (
-    <div className='w-full min-h-96 flex flex-wrap items-center justify-center p-2.5 gap-10'>
+    <div className='w-full min-h-96 flex flex-wrap items-center justify-center p-2.5 gap-16'>
 
       {/* Introduction */}
       <div className='md:w-full w-[90%] min-h-96  flex md:flex-row  flex-col flex-wrap items-center justify-center gap-4 mt-4'>
         <div className='md:w-[45%] w-full min-h-40 '>
-            <h2 className='text-2xl font-semibold text-[#16A34A]'>"Discover your perfect stay with us! Book your dream vacation at unbeatable prices. Explore top-rated hotels and enjoy seamless booking for an unforgettable experience."</h2>
+            <h2 className='md:text-2xl text-xl font-semibold text-[#16A34A]'>"Discover your perfect stay with us! Book your dream vacation at unbeatable prices. Explore top-rated hotels and enjoy seamless booking for an unforgettable experience."</h2>
         </div>
         <div className='md:w-[45%] w-[80%] min-h-40  flex items-center justify-center'>
             <Carousel className="w-full max-w-sm" opts={{align: "start",loop: true,}}  plugins={[
@@ -108,7 +108,7 @@ function HomePage() {
 
       {/* List of Hotels */}
     <div className='md:w-full w-[90%] min-h-96 flex flex-wrap flex-col items-center justify-center gap-5 mt-4 mb-4'>
-      <h1 className="text-3xl font-bold text-center">Hotels</h1>
+      {/* <h1 className="text-3xl font-bold text-center">Hotels</h1> */}
       <div className='w-full flex flex-row flex-wrap items-center justify-center gap-3'>
       { hotels && hotels.map((hotel) => (
           console.log("hotel:",hotel._id),
