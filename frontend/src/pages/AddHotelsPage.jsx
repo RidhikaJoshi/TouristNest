@@ -33,77 +33,79 @@ function AddHotelsPage() {
      const { toast } = useToast();
 
  
-  useEffect(() => {
-  const user = JSON.parse(localStorage.getItem("userData"));
-  console.log("user", user);
-  setOwner(user.user._id);
-  setAccessToken(user.accessToken);
-}, []);
+    useEffect(() => {
+      const user = JSON.parse(localStorage.getItem("userData"));
+      console.log("user", user);
+      setOwner(user.user._id);
+      setAccessToken(user.accessToken);
+    }, []);
 
-useEffect(() => {
-  console.log("owner", owner);
-  console.log("accessToken", AccessToken);
-}, [owner, AccessToken]);
+    useEffect(() => {
+      console.log("owner", owner);
+      console.log("accessToken", AccessToken);
+    }, [owner, AccessToken]);
 
     const handleAddHotel = async (e) => {
-    e.preventDefault();
-    setDeploy("Deploying...");
-    if (!name || !description || !location || !price || !owner || !country || !state || !tags || !picture) {
-       toast({
-          title: "Uh oh! Something went wrong.",
-          description: "Please fill all the fields.",
-          action: <ToastAction altText="Try again">Try again</ToastAction>,
-        })
-      return ;};
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("description", description);
-    formData.append("location", location);
-    formData.append("price", price);
-    formData.append("owner", owner);
-    formData.append("country", country);
-    formData.append("state", state);
-    formData.append("tags", tags); // Assuming tags is a string
-    
-    formData.append("picture", picture);
+        e.preventDefault();
+        setDeploy("Deploying...");
+        if (!name || !description || !location || !price || !owner || !country || !state || !tags || !picture) {
+          setDeploy("Deploy");
+          toast({
+              title: "Uh oh! Something went wrong.",
+              description: "Please fill all the fields.",
+              action: <ToastAction altText="Try again">Try again</ToastAction>,
+            })
+          return ;};
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("description", description);
+        formData.append("location", location);
+        formData.append("price", price);
+        formData.append("owner", owner);
+        formData.append("country", country);
+        formData.append("state", state);
+        formData.append("tags", tags); // Assuming tags is a string
+        
+        formData.append("picture", picture);
 
-    try {
-        const response = await axios.post(
-            `${config.BASE_URL}/api/v1/hotels/addHotels`,
-            formData,
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                    Authorization: `Bearer ${AccessToken}`,
-                },
+        try {
+            const response = await axios.post(
+                `${config.BASE_URL}/api/v1/hotels/addHotels`,
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${AccessToken}`,
+                    },
+                }
+            );
+            console.log("response", response);
+            if (response.status === 200) {
+                setDeploy("Deploy");
+                setName("");
+                setDescription("");
+                setLocation("");
+                setPrice("");
+                setCountry("");
+                setState("");
+                setPicture("");
+                setTags(""); // Reset tags to empty string
+                toast({
+              description: "Hotel added successfully.",
+            })
+                navigate("/");
             }
-        );
-        console.log("response", response);
-        if (response.status === 200) {
+        } catch (error) {
+            console.log("error occurred in adding hotels in the database", error);
             setDeploy("Deploy");
-            setName("");
-            setDescription("");
-            setLocation("");
-            setPrice("");
-            setCountry("");
-            setState("");
-            setPicture("");
-            setTags(""); // Reset tags to empty string
             toast({
-          description: "Hotel added successfully.",
-        })
-            navigate("/");
+              title: "Uh oh! Something went wrong.",
+              description: "There was a problem with your request.",
+              action: <ToastAction altText="Try again">Try again</ToastAction>,
+            })
+            
         }
-    } catch (error) {
-        console.log("error occurred in adding hotels in the database", error);
-        toast({
-          title: "Uh oh! Something went wrong.",
-          description: "There was a problem with your request.",
-          action: <ToastAction altText="Try again">Try again</ToastAction>,
-        })
-        setDeploy("Deploy");
-    }
-};
+    };
 
   const handleCancel=()=>{
     navigate("/");

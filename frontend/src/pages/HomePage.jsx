@@ -204,7 +204,7 @@ function HomePage() {
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious onClick={() => {
+          <PaginationPrevious className="cursor-pointer" onClick={() => {
             setPage(page - 1>0?page-1:1);
             
           }} />
@@ -230,7 +230,7 @@ function HomePage() {
           <PaginationEllipsis />
         </PaginationItem>
         <PaginationItem>
-          <PaginationNext onClick= {()=>setPage(page+1<=3?page+1:3)} />
+          <PaginationNext className="cursor-pointer" onClick= {()=>setPage(page+1<=3?page+1:3)} />
         </PaginationItem>
       </PaginationContent>
     </Pagination>
