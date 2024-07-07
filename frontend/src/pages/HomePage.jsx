@@ -320,7 +320,7 @@ const reviews = [
 
 
     {/* Reviews Section */}
-    <div className='min-h-60 bg-red-300 md:w-[80%] w-[50%] flex flex-wrap items-center justify-center'>
+    <div className='min-h-60 md:w-[80%] w-[60%] flex flex-wrap items-center justify-center'>
         <Carousel
           opts={{
             align: "start",
@@ -332,7 +332,7 @@ const reviews = [
               <CarouselItem key={index} className="md:basis-1/3 ">
                 <div>
                   <Card>
-                    <CardContent className="h-60 flex flex-col items-center justify-center p-3 text-center gap-3  bg-black rounded">
+                    <CardContent className="md:h-60 h-72 flex flex-col items-center justify-center p-3 text-center gap-3  bg-black rounded">
                       <div className='flex flex-row gap-3 items-center justify-center'>
                       <Avatar>
                         <AvatarImage src={review.image} alt="@shadcn" />
