@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import { RouterProvider,createHashRouter } from 'react-router-dom'
 import {lazy}  from 'react'
 import { Toaster } from "@/components/ui/toaster"
+import { ChakraProvider } from '@chakra-ui/react'
 
 const HomePage = lazy(()=>import('./pages/HomePage.jsx'));
 const LoginPage = lazy(()=>import('./pages/LoginPage.jsx'));
@@ -69,7 +70,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
    <Provider store={store}>
     <RouterProvider router={router}/>
+    <ChakraProvider>
      <Toaster />
+     </ChakraProvider>
   </Provider>
   </React.StrictMode>,
    document.getElementById('root')

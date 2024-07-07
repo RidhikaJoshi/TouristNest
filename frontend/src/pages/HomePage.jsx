@@ -36,6 +36,13 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { FaStar } from "react-icons/fa";
+
 
 function HomePage() {
     const [hotels, setHotels] = useState([]);
@@ -88,6 +95,82 @@ function HomePage() {
         }
      ]
 
+
+const reviews = [
+  {
+    user: "John D.",
+    review: "TouristNest made booking my vacation so easy! The interface is super intuitive, and I found the perfect hotel within minutes. Highly recommend!",
+    rating: 5,
+    image: "https://randomuser.me/api/portraits/men/1.jpg",
+    wordCount: 22
+  },
+  {
+    user: "Sophie B.",
+    review: "TouristNest helped me find the perfect hotel for my family vacation. The website is easy to use, and the booking process was straightforward. Highly recommend!",
+    rating: 5,
+    image: "https://randomuser.me/api/portraits/women/3.jpg",
+    wordCount: 23
+  },
+  {
+    user: "Daniel M.",
+    review: "I had a great experience using TouristNest. The interface is clean and modern, and I appreciated the detailed hotel descriptions. Will definitely use it again!",
+    rating: 4,
+    image: "https://randomuser.me/api/portraits/men/4.jpg",
+    wordCount: 22
+  },
+  {
+    user: "Jessica S.",
+    review: "TouristNest made my last-minute trip planning stress-free. The search filters were helpful, and I found a great deal on a hotel in a prime location. Very satisfied!",
+    rating: 5,
+    image: "https://randomuser.me/api/portraits/women/4.jpg",
+    wordCount: 27
+  },
+  {
+    user: "Ryan P.",
+    review: "The booking process on TouristNest was quick and efficient. I appreciated the secure payment options and the variety of hotel choices available. Recommended!",
+    rating: 4,
+    image: "https://randomuser.me/api/portraits/men/5.jpg",
+    wordCount: 22
+  },
+  {
+    user: "Olivia L.",
+    review: "I found TouristNest to be very user-friendly. The interface is intuitive, and I liked being able to compare different hotels easily. Overall, a great experience.",
+    rating: 4,
+    image: "https://randomuser.me/api/portraits/women/5.jpg",
+    wordCount: 20
+  },
+  {
+    user: "Emily R.",
+    review: "I love the seamless experience TouristNest provides. From user authentication to secure payment processing with Stripe, everything works flawlessly. Great job!",
+    rating: 5,
+    image: "https://randomuser.me/api/portraits/women/1.jpg",
+    wordCount: 22
+  },
+  {
+    user: "Michael T.",
+    review: "TouristNest is a game-changer for booking hotels. The listings are comprehensive, and the booking management system is very user-friendly. Five stars!",
+    rating: 5,
+    image: "https://randomuser.me/api/portraits/men/2.jpg",
+    wordCount: 22
+  },
+  {
+    user: "Sarah L.",
+    review: "Booking through TouristNest was a breeze. The website is well-designed and easy to navigate. The secure payment integration made me feel safe with my transaction.",
+    rating: 4,
+    image: "https://randomuser.me/api/portraits/women/2.jpg",
+    wordCount: 27
+  },
+  {
+    user: "James K.",
+    review: "Fantastic service from TouristNest! The hotel options are excellent, and the booking process is quick and efficient. I'll definitely use it for my next trip.",
+    rating: 5,
+    image: "https://randomuser.me/api/portraits/men/3.jpg",
+    wordCount: 24
+  }
+];
+
+
+
   useEffect(() => {
     const fetchHotels = async () => {
       try {
@@ -103,7 +186,7 @@ function HomePage() {
   }, [page])
 
   return (
-    <div className='w-full min-h-96 flex flex-wrap items-center justify-center p-2.5 gap-16'>
+    <div className='w-full min-h-96 flex flex-col flex-wrap items-center justify-center p-2.5 gap-16'>
 
       {/* Introduction1 */}
       <div className='md:w-full w-[90%] min-h-96  flex md:flex-row  flex-col flex-wrap items-center justify-center gap-4 mt-4'>
@@ -235,6 +318,48 @@ function HomePage() {
       </PaginationContent>
     </Pagination>
 
+
+    {/* Reviews Section */}
+    <div className='min-h-60 bg-red-300 md:w-[80%] w-[50%] flex flex-wrap items-center justify-center'>
+        <Carousel
+          opts={{
+            align: "start",
+          }}
+          className="w-full max-w-2xl"
+        >
+          <CarouselContent>
+            {reviews.map((review, index) => (
+              <CarouselItem key={index} className="md:basis-1/3 ">
+                <div>
+                  <Card>
+                    <CardContent className="h-60 flex flex-col items-center justify-center p-3 text-center gap-3  bg-black rounded">
+                      <div className='flex flex-row gap-3 items-center justify-center'>
+                      <Avatar>
+                        <AvatarImage src={review.image} alt="@shadcn" />
+                        <AvatarFallback>User</AvatarFallback>
+                      </Avatar>
+                      <h4 className='text-white font-semibold'>{review.user}</h4>
+                      </div>
+                      <p className="text-white text-center text-sm">{review.review}</p>
+                      <div className='flex flex-row gap-3 items-center justify-center'>
+                        <p className="text-white text-center text-sm">Rating:</p>
+                        <div className='flex flex-row gap-1'>
+                       {
+                        Array.from({ length: review.rating }).map((_, index) => (
+                          <FaStar key={index} className="text-yellow-400" />
+                        ))
+                      }</div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+  </div>
 
     {/* FAQs */}
     <div className='br-red-200 md:w-[60%] w-[90%] min-h-32'>
