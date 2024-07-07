@@ -5,10 +5,11 @@ import { login ,logout} from './store/authSlice.js'
 import { Outlet } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import axios from 'axios'
+import ReactLoading from 'react-loading';
 
 function App() {
   const dispatch = useDispatch();
+    const [loading,setLoading]=useState(true);
   useEffect(() => {
     const checkLoggedIn =  () => {
       let userLoggedIn = localStorage.getItem('userLoggedIn');
@@ -20,19 +21,29 @@ function App() {
         }
       };
     checkLoggedIn();
+    setLoading(false);
   }, [dispatch]);
 
-  return (
-  
-   <div className='font-serif italic min-h-[100vh] w-full'>
-    <Header/>
-   <Suspense fallback={<div>Loading...</div>}>
-    <Outlet />
-    </Suspense>
-    <Footer />
-   </div>
-  
-  )
+if (loading)
+    return (
+      <div className="w-full h-screen flex flex-col items-center justify-center ">
+        <ReactLoading type="spin" color='green' height={'20%'} width={'20%'} />
+      </div>
+    );
+
+      return (
+      
+      <div className='font-serif italic h-screen w-full'>
+        <Header/>
+         <div className="min-h-[85vh] flex flex-col items-center justify-center ">
+      <Suspense fallback={<ReactLoading type="spin" color='green' height={'20%'} width={'20%'} />}>
+        <Outlet />
+        </Suspense>
+        </div>
+        <Footer />
+      </div>
+    )
 }
+
 
 export default App
