@@ -26,14 +26,14 @@ function App() {
 
 if (loading)
     return (
-      <div className="w-full h-screen flex flex-col items-center justify-center ">
+      <div className="w-full h-screen flex flex-col items-center justify-center bg-green-100 ">
         <ReactLoading type="spin" color='green' height={'20%'} width={'20%'} />
       </div>
     );
 
       return (
       
-      <div className='font-serif italic h-screen w-full'>
+      <div className='font-serif italic h-full w-full bg-green-100'>
         <Header/>
          <div className="min-h-[85vh] flex flex-col items-center justify-center ">
       <Suspense fallback={<ReactLoading type="spin" color='green' height={'20%'} width={'20%'} />}>

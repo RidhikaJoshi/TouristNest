@@ -42,6 +42,7 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar"
 import { FaStar } from "react-icons/fa";
+import { Skeleton } from "@/components/ui/skeleton"
 
 
 function HomePage() {
@@ -174,9 +175,9 @@ const reviews = [
   useEffect(() => {
     const fetchHotels = async () => {
       try {
-        const response = await axios.get(`${config.BASE_URL}/api/v1/hotels/getAllHotels?page=${page}&limit=6`);
+        const response=await axios.get(`${config.BASE_URL}/api/v1/hotels/getAllHotels?page=${page}&limit=6`);
         //console.log("hotels:",response.data);
-        setHotels(response.data.data);
+        setHotels(response?.data?.data);
       } catch (error) {
         console.error('Error fetching hotels:', error)
       }
@@ -251,22 +252,49 @@ const reviews = [
         </div>
         
       </div>
+              
+
 
               
       {/* List of Hotels */}
     <div className='md:w-full w-[90%] min-h-96 flex flex-wrap flex-col items-center justify-center gap-5 mt-4 mb-4'>
       {/* <h1 className="text-3xl font-bold text-center">Hotels</h1> */}
       <div className='w-full flex flex-row flex-wrap items-center justify-center gap-3'>
-      { hotels && hotels.map((hotel) => (
+      { hotels.length === 0 ? [1, 2, 3, 4, 5, 6].map((n) => (
+        <Card className="w-[400px] border-[0.5px] border-[#16A34A]" key={n}>
+          <CardHeader>
+            <CardTitle><Skeleton/></CardTitle>
+          </CardHeader>
+          <CardContent className=" flex flex-col gap-4">
+            <div className="grid w-full items-center gap-4">
+              <div>
+                <Skeleton className="w-full h-60" />
+              </div>
+            </div>
+            <CardDescription><Skeleton count={3}/></CardDescription>
+          </CardContent>
+          <CardFooter className="flex justify-between">
+            <Button disabled><Skeleton/></Button>
+            <Button disabled><Skeleton/></Button>
+          </CardFooter>
+        </Card>
+      ))
+      
+      
+      
+      
+      : 
+      hotels.map((hotel) => (
           //console.log("hotel:",hotel._id),
         <Card className="w-[400px] border-[0.5px] border-[#16A34A]" key={hotel._id}>
           <CardHeader>
-            <CardTitle>{hotel.name}</CardTitle>
+            <CardTitle>{hotel?hotel.name :<Skeleton/>}</CardTitle>
             
           </CardHeader>
           <CardContent className=" flex flex-col gap-4">
             <div className="grid w-full items-center gap-4">
               <div>
+                
                 <img src={hotel.picture} alt={hotel.name} className="w-full h-60" />
               </div>
             </div>
@@ -282,7 +310,7 @@ const reviews = [
       }
       </div>
 
-    </div>
+      </div>
 
     <Pagination>
       <PaginationContent>
