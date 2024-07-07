@@ -6,10 +6,20 @@ import { Outlet } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import ReactLoading from 'react-loading';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 function App() {
   const dispatch = useDispatch();
     const [loading,setLoading]=useState(true);
+
+    useEffect(() => {
+ AOS.init({
+ duration: 1000, // Global animation duration
+ once: true, // Only once animation
+ });
+ }, []);
+ 
   useEffect(() => {
     const checkLoggedIn =  () => {
       let userLoggedIn = localStorage.getItem('userLoggedIn');

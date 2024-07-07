@@ -191,7 +191,7 @@ const reviews = [
 
       {/* Introduction1 */}
       <div className='md:w-full w-[90%] min-h-96  flex md:flex-row  flex-col flex-wrap items-center justify-center gap-4 mt-4'>
-        <div className='md:w-[45%] w-full min-h-40 '>
+        <div className='md:w-[45%] w-full min-h-40' data-aos="fade-right">
             <h2 className='md:text-2xl text-xl font-semibold text-[#16A34A]'>"Discover your perfect stay with us! Book your dream vacation at unbeatable prices. Explore top-rated hotels and enjoy seamless booking for an unforgettable experience."</h2>
         </div>
         <div className='md:w-[45%] w-[80%] min-h-40  flex items-center justify-center'>
@@ -279,10 +279,6 @@ const reviews = [
           </CardFooter>
         </Card>
       ))
-      
-      
-      
-      
       : 
       hotels.map((hotel) => (
           //console.log("hotel:",hotel._id),
@@ -348,7 +344,8 @@ const reviews = [
 
 
     {/* Reviews Section */}
-    <div className='min-h-60 md:w-[80%] w-[60%] flex flex-wrap items-center justify-center'>
+    <div className='min-h-60 md:w-[80%] w-[60%] flex flex-col gap-4 flex-wrap items-center justify-center'>
+      <h1 className="text-3xl font-bold text-center">Reviews</h1>
         <Carousel
           opts={{
             align: "start",
