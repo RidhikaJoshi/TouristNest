@@ -195,7 +195,7 @@ const reviews = [
             <h2 className='md:text-2xl text-xl font-semibold text-[#16A34A]'>"Discover your perfect stay with us! Book your dream vacation at unbeatable prices. Explore top-rated hotels and enjoy seamless booking for an unforgettable experience."</h2>
         </div>
         <div className='md:w-[45%] w-[80%] min-h-40  flex items-center justify-center'>
-            <Carousel className="w-full max-w-sm" opts={{align: "start",loop: true,}}  plugins={[
+            <Carousel data-aos="fade-left" className="w-full max-w-sm" opts={{align: "start",loop: true,}}  plugins={[
         Autoplay({
           delay: 2000,
         }),
@@ -225,7 +225,7 @@ const reviews = [
        <div className='md:w-full w-[90%] min-h-96  flex md:flex-row  flex-col-reverse flex-wrap items-center justify-center gap-4 mt-4'>
        
         <div className='md:w-[45%] w-[80%] min-h-40  flex items-center justify-center'>
-            <Carousel className="w-full max-w-sm" opts={{align: "start",loop: true,}}  plugins={[
+            <Carousel data-aos="fade-up" className="w-full max-w-sm" opts={{align: "start",loop: true,}}  plugins={[
         Autoplay({
           delay: 2000,
         }),
@@ -247,7 +247,7 @@ const reviews = [
               <CarouselNext />
           </Carousel>
         </div>
-         <div className='md:w-[45%] w-full min-h-40 '>
+         <div  data-aos="fade-down" className='md:w-[45%] w-full min-h-40 '>
             <h2 className='md:text-2xl text-xl font-semibold text-[#16A34A]'>"Stay in style, travel in comfort. Find the best deals on hotels, from budget-friendly to luxury. Make your next getaway unforgettable with our easy booking process."</h2>
         </div>
         
