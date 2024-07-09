@@ -225,7 +225,7 @@ const reviews = [
        <div className='md:w-full w-[90%] min-h-96  flex md:flex-row  flex-col-reverse flex-wrap items-center justify-center gap-4 mt-4'>
        
         <div className='md:w-[45%] w-[80%] min-h-40  flex items-center justify-center'>
-            <Carousel data-aos="fade-up" className="w-full max-w-sm" opts={{align: "start",loop: true,}}  plugins={[
+            <Carousel data-aos="fade-up" data-aos-anchor-placement="top-bottom" className="w-full max-w-sm" opts={{align: "start",loop: true,}}  plugins={[
         Autoplay({
           delay: 2000,
         }),
@@ -257,11 +257,11 @@ const reviews = [
 
               
       {/* List of Hotels */}
-    <div className='md:w-full w-[90%] min-h-96 flex flex-wrap flex-col items-center justify-center gap-5 mt-4 mb-4'>
+    <div data-aos="zoom-in" className='md:w-full w-[90%] min-h-96 flex flex-wrap flex-col items-center justify-center gap-5 mt-4 mb-4'>
       {/* <h1 className="text-3xl font-bold text-center">Hotels</h1> */}
-      <div className='w-full flex flex-row flex-wrap items-center justify-center gap-3'>
+      <div className='w-full flex flex-row flex-wrap items-center justify-center gap-3' >
       { hotels.length === 0 ? [1, 2, 3, 4, 5, 6].map((n) => (
-        <Card className="w-[400px] border-[0.5px] border-[#16A34A]" key={n}>
+        <Card  className="w-[400px] border-[0.5px] border-[#16A34A]" key={n} >
           <CardHeader>
             <CardTitle><Skeleton/></CardTitle>
           </CardHeader>
@@ -344,7 +344,7 @@ const reviews = [
 
 
     {/* Reviews Section */}
-    <div className='min-h-60 md:w-[80%] w-[60%] flex flex-col gap-4 flex-wrap items-center justify-center'>
+    <div data-aos="fade-up" className='min-h-60 md:w-[80%] w-[60%] flex flex-col gap-4 flex-wrap items-center justify-center'>
       <h1 className="text-3xl font-bold text-center">Reviews</h1>
         <Carousel
           opts={{
@@ -387,7 +387,7 @@ const reviews = [
   </div>
 
     {/* FAQs */}
-    <div className='br-red-200 md:w-[60%] w-[90%] min-h-32'>
+    <div data-aos="fade-up" className='br-red-200 md:w-[60%] w-[90%] min-h-32'>
       <h1 className="text-3xl font-bold text-center">FAQs</h1>
       <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="item-1">

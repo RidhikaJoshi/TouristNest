@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import  {Check, Cross } from "lucide-react"
+import  {Check} from "lucide-react"
 
 
 
@@ -37,9 +37,9 @@ function BookingHistory() {
               },
             }
           );
-          console.log("response",response.data.data);
+          //console.log("response",response.data.data);
           setBookings(response.data.data);
-          console.log("bookings",bookings);
+          //console.log("bookings",bookings);
 
         }catch(error)
         {
