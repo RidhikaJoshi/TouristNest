@@ -21,17 +21,21 @@ function App() {
  }, []);
  
   useEffect(() => {
-    const checkLoggedIn =  () => {
+    const checkLoggedIn = () => {
       let userLoggedIn = localStorage.getItem('userLoggedIn');
       if (userLoggedIn === 'true') {
-          dispatch(login({ userData: JSON.parse(localStorage.getItem('userData')) }));
-        } else {
-          console.error('Error due to not logged in :');
-          dispatch(logout());
-        }
-      };
+        // Parse user data from localStorage and dispatch login action
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        dispatch(login({ userData }));
+      } else {
+        // Handle case where user is not logged in
+        console.error('User not logged in.');
+        dispatch(logout());
+      }
+    };
+
     checkLoggedIn();
-    setLoading(false);
+    setLoading(false); // Set loading to false once user authentication check is done
   }, [dispatch]);
 
 if (loading)

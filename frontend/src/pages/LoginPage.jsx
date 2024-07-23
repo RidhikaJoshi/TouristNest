@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { login } from '../store/authSlice.js'
@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label"
 import config from "../config/config.js"; 
 import { ToastAction } from "@/components/ui/toast"
 import { useToast } from "@/components/ui/use-toast"
+
 
 function LoginPage() {
     const [email, setEmail] = useState('');
@@ -91,6 +92,8 @@ function LoginPage() {
         
     }
 
+   
+
     const testLoginHandler=async()=>{
       
       const testEmail="test@gmail.com";
@@ -136,7 +139,9 @@ function LoginPage() {
             <div className="flex flex-row space-y-1.5 text-sm">Don't Have an Account? &nbsp;<Link to='/register'><span className='text-green-700 font-semibold'>SignUp</span></Link></div>
             
           </div>
+         
         </form>
+      
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button onClick={testLoginHandler}>Test User</Button>
