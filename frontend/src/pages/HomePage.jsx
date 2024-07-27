@@ -43,6 +43,8 @@ import {
 } from "@/components/ui/avatar"
 import { FaStar } from "react-icons/fa";
 import { Skeleton } from "@/components/ui/skeleton"
+import { VelocityScroll } from "@/components/magicui/scroll-based-velocity";
+import NumberTicker from "@/components/magicui/number-ticker";
 
 
 function HomePage() {
@@ -220,6 +222,32 @@ const reviews = [
         
       </div>
 
+      <div className=' w-[90%] min-h-60 flex md:flex-row  flex-col items-center justify-center gap-4 mt-4'>
+                <div className='bg-green-200 h-full md:w-[30%] p-3 rounded w-full flex flex-col items-center justify-center gap-3 '>
+                <p className="whitespace-pre-wrap md:text-6xl text-4xl flex flex-row items-center justify-center font-medium tracking-tighter text-black dark:text-white">
+                  <NumberTicker value={100} />
+                  <p className='md:text-4xl text-2xl' >+</p>
+                </p>
+                <h2>Satisfied Clients</h2>
+                </div>
+
+                <div className='bg-green-200 h-full md:w-[30%] p-3 rounded w-full flex flex-col items-center justify-center gap-3 '>
+                <p className="whitespace-pre-wrap md:text-6xl text-4xl flex flex-row items-center justify-center font-medium tracking-tighter text-black dark:text-white">
+                  <NumberTicker value={60} />
+                  <p className='md:text-4xl text-2xl' >+</p>
+                </p>
+                <h2>Available Hotels</h2>
+                </div>
+
+                <div className='bg-green-200 h-full md:w-[30%] p-3 rounded w-full flex flex-col items-center justify-center gap-3 '>
+                <p className="whitespace-pre-wrap md:text-6xl text-4xl flex flex-row items-center justify-center font-medium tracking-tighter text-black dark:text-white">
+                  <NumberTicker value={80} />
+                  <p className='md:text-4xl text-2xl' >+</p>
+                </p>
+                <h2>Positive Reviews</h2>
+                </div>
+                
+      </div>
 
     {/* Introduction2 */}
        <div className='md:w-full w-[90%] min-h-96  flex md:flex-row  flex-col-reverse flex-wrap items-center justify-center gap-4 mt-4'>
@@ -342,6 +370,13 @@ const reviews = [
       </PaginationContent>
     </Pagination>
 
+    <div className='md:w-full w-[90%]  flex md:flex-row'>
+          <VelocityScroll
+      text="TouristNest"
+      default_velocity={5}
+      className="font-display text-center text-xl font-semibold tracking-[-0.02em] text-[#16A34A] drop-shadow-sm dark:text-white md:text-5xl md:leading-[5rem]"
+    />
+      </div>
 
     {/* Reviews Section */}
     <div data-aos="fade-up" className='min-h-60 md:w-[80%] w-[60%] flex flex-col gap-4 flex-wrap items-center justify-center'>
