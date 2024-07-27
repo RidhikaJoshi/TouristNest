@@ -17,6 +17,8 @@ const AddHotelsPage = lazy(()=>import('./pages/AddHotelsPage.jsx'));
 const BookingsHistory = lazy(()=>import('./pages/BookingHistory.jsx'));
 const Payment = lazy(()=>import('./pages/Payment.jsx'));
 const Bookings= lazy(()=>import('./pages/Bookings.jsx'));
+const SuccessPage = lazy(()=>import('./pages/Success.jsx'));
+const CancelPage = lazy(()=>import('./pages/Cancel.jsx'));
 
 
 const router = createHashRouter(
@@ -55,7 +57,7 @@ const router = createHashRouter(
       },
       {
         path:"bookings/:id/payment",
-        element:<Payment/>
+        element:<Payment/>,
       },
       {
         path:"addHotels",
