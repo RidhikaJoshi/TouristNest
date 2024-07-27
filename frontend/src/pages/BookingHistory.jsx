@@ -13,9 +13,6 @@ import {
 import  {Check} from "lucide-react"
 
 
-
-
-
 function BookingHistory() {
     const user=JSON.parse(localStorage.getItem('userData'));
     console.log(user);
@@ -39,7 +36,7 @@ function BookingHistory() {
           );
           //console.log("response",response.data.data);
           setBookings(response.data.data);
-          //console.log("bookings",bookings);
+          console.log("bookings",bookings);
 
         }catch(error)
         {
@@ -55,7 +52,7 @@ function BookingHistory() {
         <div className='md:w-[90%] w-full min-h-96 flex flex-wrap gap-5 justify-center items-center mt-7 mb-7'>
 
           {bookings && bookings.length>0 ?bookings.map((booking) => (
-           
+            console.log(booking),
             <Card key={booking._id} className='h-70 w-70 border-black border-2 flex flex-col items-center justify-center'>
 
               <CardHeader>
@@ -74,10 +71,6 @@ function BookingHistory() {
                   <Check size={20} className='mr-2' />
                   Booked
                 </Button>
-                {/* <Button  className='w-full bg-red-500' onClick={deleteBookingHandle}>
-                  <Cross size={20} className='mr-2' />
-                  Cancel
-                </Button> */}
               </CardFooter>
             </Card>
           )): <p>No bookings found</p>}

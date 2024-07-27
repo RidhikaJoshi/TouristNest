@@ -76,6 +76,8 @@ function Payment() {
     {
       console.log("error occured while redirecting to checkout",result.error.message);
     }
+
+    
   }
   return (
     <div className='w-full flex flex-wrap min-h-screen items-center justify-center'>
