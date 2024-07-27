@@ -81,6 +81,7 @@ function Bookings() {
         setCheckIn(null);
         setCheckOut(null);
         setNumberOfRooms(1);
+        console.log("Booking response:", response.data.message);
         navigate(`/bookings/${response.data.message._id}/payment`);
         
 
